@@ -26,7 +26,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
+<<<<<<< HEAD
         <activity android:name=".MainActivity" />
+=======
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".NoticeActivity"></activity>
+        <activity android:name=".AskActivity"></activity>
+        <activity android:name=".MypageActivity"></activity>
+>>>>>>> b31cf595fe1370d5488a2d0f82d6743f569f9ec1
     </application>
 
 </manifest>
