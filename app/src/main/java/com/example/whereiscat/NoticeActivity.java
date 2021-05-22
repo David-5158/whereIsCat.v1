@@ -6,12 +6,12 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AskActivity extends AppCompatActivity {
-    Button btn_ask;
+public class NoticeActivity extends AppCompatActivity {
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ask);
+        setContentView(R.layout.activity_notice);
 
 
     }
