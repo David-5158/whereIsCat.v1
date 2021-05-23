@@ -38,19 +38,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(final GoogleMap googleMap) {
         mgoogleMap = googleMap;
 
-        final LatLng Pocheon = new LatLng(37.894936, 127.200344);   // 마커 추가
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(Pocheon);
-        markerOptions.title("포천시청");                                    // 마커 옵션 추가
-        googleMap.addMarker(markerOptions);                                 // 마커 등록
-
-        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+        // 맵 터치 이벤트 구현 //
+        mgoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
             @Override
-            public void onMapLoaded() {
-                mgoogleMap.moveCamera(CameraUpdateFactory.newLatLng(Pocheon));
-                mgoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+            public void onMapClick(LatLng point) {
+                MarkerOptions mOptions = new MarkerOptions();
+                // 마커 타이틀
+                mOptions.title("마커 좌표");
+                Double latitude = point.latitude; // 위도
+                Double longitude = point.longitude; // 경도
+                // 마커의 스니펫(간단한 텍스트) 설정
+                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
+                // LatLng: 위도 경도 쌍을 나타냄
+                mOptions.position(new LatLng(latitude, longitude));
+                // 마커(핀) 추가
+                googleMap.addMarker(mOptions);
             }
-        }); // 구글맵 로딩이 완료되면 카메라 위치 조정
+        });
+        ////////////////////
+
+        // Add a marker in Sydney and move the camera
+        LatLng pocheon = new LatLng(37.894936, 127.200344); //카메라 위치
+        mgoogleMap.addMarker(new MarkerOptions().position(pocheon).title("Marker in Pocheon"));
+        mgoogleMap.moveCamera(CameraUpdateFactory.newLatLng(pocheon));
+        mgoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 }
