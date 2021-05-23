@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             }
             Address addressLoc = addresses.get(0);
 
+<<<<<<< HEAD
             resLocation.setLatitude(addressLoc.getLatitude());
             resLocation.setLongitude(addressLoc.getLongitude());
 
@@ -217,5 +218,31 @@ public class MainActivity extends AppCompatActivity {
             myMarker.title("◎ 내위치\n");
             myMarker.snippet("여기가 어디지?");
         }
+=======
+        // 맵 터치 이벤트 구현 //
+        mgoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+            @Override
+            public void onMapClick(LatLng point) {
+                MarkerOptions mOptions = new MarkerOptions();
+                // 마커 타이틀
+                mOptions.title("마커 좌표");
+                Double latitude = point.latitude; // 위도
+                Double longitude = point.longitude; // 경도
+                // 마커의 스니펫(간단한 텍스트) 설정
+                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
+                // LatLng: 위도 경도 쌍을 나타냄
+                mOptions.position(new LatLng(latitude, longitude));
+                // 마커(핀) 추가
+                googleMap.addMarker(mOptions);
+            }
+        });
+        ////////////////////
+
+        // Add a marker in Sydney and move the camera
+        LatLng pocheon = new LatLng(37.894936, 127.200344); //카메라 위치
+        mgoogleMap.addMarker(new MarkerOptions().position(pocheon).title("Marker in Pocheon"));
+        mgoogleMap.moveCamera(CameraUpdateFactory.newLatLng(pocheon));
+        mgoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+>>>>>>> 91fafe15a508e0ddcd191c3107853493270169f2
     }
 }
