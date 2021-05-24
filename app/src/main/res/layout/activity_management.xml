@@ -46,7 +46,7 @@
 
             <Button
                 android:id="@+id/btn_board1"
-                android:layout_width="205dp"
+                android:layout_width="208dp"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:text="게시판"
@@ -55,12 +55,27 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="445dp"
             android:background="#DAFF7A7A">
 
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="#DAFF7A7A">
+
+            <Button
+                android:id="@+id/btn_finish1"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:text="FINISH"/>
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>

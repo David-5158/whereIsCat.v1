@@ -12,7 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class managementActivity extends AppCompatActivity {
 
-    Button btn_feed, btn_board;
+    Button btn_feed, btn_board, btn_finish;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +20,7 @@ public class managementActivity extends AppCompatActivity {
 
         btn_feed = findViewById(R.id.btn_feed1);
         btn_board = findViewById(R.id.btn_board1);
+        btn_finish = findViewById(R.id.btn_finish1);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
