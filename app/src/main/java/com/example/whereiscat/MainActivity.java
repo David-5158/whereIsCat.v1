@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button btnLocation, btnKor2Loc,btn_mypage ;
+    Button btnLocation, btnKor2Loc, btn_mypage;
     EditText editText;
 
     MarkerOptions myMarker;
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         btnKor2Loc = findViewById(R.id.button2);
         btn_mypage = findViewById(R.id.btn_mypage);
 
-
         btn_mypage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         //지도 프래그먼트 설정
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
