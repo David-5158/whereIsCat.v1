@@ -4,13 +4,17 @@ package com.example.whereiscat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.ImageView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -45,10 +49,9 @@ public class managementActivity extends AppCompatActivity {
         img7.setImageResource(R.drawable.empty_snack);
         img8.setImageResource(R.drawable.empty_snack);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-        getSupportActionBar().setTitle("관리하기");
+        Gallery gallery = (Gallery) findViewById(R.id.gallery1);
+        MyGalleryAdapter galAdapter = new MyGalleryAdapter(this);
+        gallery.setAdapter(galAdapter);
 
         //빈밥그릇 클릭시 이미지 변경
         img1.setOnClickListener(new View.OnClickListener() {
@@ -172,18 +175,23 @@ public class managementActivity extends AppCompatActivity {
                     img8.setImageResource(R.drawable.full_snack);
                     //로직 수행
                 }}});
-
-
     }
+    public class MyGalleryAdapter extends BaseAdapter {
+        Context context;
+        Integer[] catID = {R.drawable.cat_1, R.drawable.cat_2, R.drawable.cat_3, R.drawable.cat_4 };
+        public MyGalleryAdapter(Context c) { context = c; }
+        public int getCount(){ return catID.length; }
+        public Object getItem(int arg0){ return null; }
+        public long getItemId(int position) { return 0; }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
-                finish();
-                return true;
-            }
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageview = new ImageView(context);
+            imageview.setLayoutParams(new Gallery.LayoutParams(500, 500));
+            imageview.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageview.setPadding(5, 5, 5, 5);
+            imageview.setImageResource(catID[position]);
+
+            return imageview;
+
         }
-        return super.onOptionsItemSelected(item);
-    }
-}
+    }}
