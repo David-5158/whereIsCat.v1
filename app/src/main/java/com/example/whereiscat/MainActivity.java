@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button btnLocation, btnKor2Loc,btn_mypage ;
+    Button btnLocation, btnKor2Loc,btn_mypage, btn_addCat ;
     EditText editText;
-
+    double w, g; //위도 경도 값
     MarkerOptions myMarker;
 
     @Override
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         btnLocation = findViewById(R.id.button1);
         btnKor2Loc = findViewById(R.id.button2);
         btn_mypage = findViewById(R.id.btn_mypage);
+        btn_addCat = findViewById(R.id.btn_addcat);
 
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MypageActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        btn_addCat.setOnClickListener(new View.OnClickListener() { //고양이 밥 위치 추가 버튼
+            @Override
+            public void onClick(View v) {
+                
             }
         });
 
@@ -109,33 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
             Address addressLoc = addresses.get(0);
-
-<<<<<<< HEAD
-        // 맵 터치 이벤트 구현 //
-        mgoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
-            @Override
-            public void onMapClick(LatLng point) {
-                MarkerOptions mOptions = new MarkerOptions();
-                // 마커 타이틀
-                mOptions.title("마커 좌표");
-                Double latitude = point.latitude; // 위도
-                Double longitude = point.longitude; // 경도
-                // 마커의 스니펫(간단한 텍스트) 설정
-                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
-                // LatLng: 위도 경도 쌍을 나타냄
-                mOptions.position(new LatLng(latitude, longitude));
-                // 마커(핀) 추가
-                googleMap.addMarker(mOptions);
-            }
-        });
-        ////////////////////
-
-        // Add a marker in Sydney and move the camera
-        LatLng pocheon = new LatLng(37.894936, 127.200344); //카메라 위치
-        mgoogleMap.addMarker(new MarkerOptions().position(pocheon).title("Marker in Pocheon"));
-        mgoogleMap.moveCamera(CameraUpdateFactory.newLatLng(pocheon));
-        mgoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-=======
             resLocation.setLatitude(addressLoc.getLatitude());
             resLocation.setLongitude(addressLoc.getLongitude());
 
@@ -184,13 +165,17 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
         //화면 확대, 숫자가 클수록 확대
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 15));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 25));
 
         //마커 찍기
         Location targetLocation = new Location("");
         targetLocation.setLatitude(37.4937);
         targetLocation.setLongitude(127.0643);
         showMyMarker(targetLocation);
+
+        w = curPoint.latitude;
+        g = curPoint.longitude;
+
     }
 
     //------------------권한 설정 시작------------------------
@@ -243,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
             myMarker.title("◎ 내위치\n");
             myMarker.snippet("여기가 어디지?");
         }
->>>>>>> 3369b0cd1fcd3792dd696201c6ec122b9be5c44f
+
+
     }
 }
