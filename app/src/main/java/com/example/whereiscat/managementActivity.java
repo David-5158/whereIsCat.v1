@@ -27,14 +27,23 @@ public class managementActivity extends AppCompatActivity {
         btn_board = findViewById(R.id.btn_board1);
         btn_finish = findViewById(R.id.btn_finish1);
 
-        ImageView img1 = (ImageView)findViewById(R.id.empty1); //빈밥그릇
-        ImageView img2 = (ImageView)findViewById(R.id.empty2);
-        ImageView img3 = (ImageView)findViewById(R.id.empty3);
-        ImageView img4 = (ImageView)findViewById(R.id.empty4);
+        ImageView img1 = (ImageView)findViewById(R.id.empty_feed1); //빈밥그릇
+        ImageView img2 = (ImageView)findViewById(R.id.empty_feed2);
+        ImageView img3 = (ImageView)findViewById(R.id.empty_feed3);
+        ImageView img4 = (ImageView)findViewById(R.id.empty_feed4);
         img1.setImageResource(R.drawable.empty_cat);  //이미지뷰에 이미지를 설정
         img2.setImageResource(R.drawable.empty_cat);
         img3.setImageResource(R.drawable.empty_cat);
         img4.setImageResource(R.drawable.empty_cat);
+
+        ImageView img5 = (ImageView)findViewById(R.id.empty_snack1); //빈간식
+        ImageView img6 = (ImageView)findViewById(R.id.empty_snack2);
+        ImageView img7 = (ImageView)findViewById(R.id.empty_snack3);
+        ImageView img8 = (ImageView)findViewById(R.id.empty_snack4);
+        img5.setImageResource(R.drawable.empty_snack);  //이미지뷰에 이미지를 변경
+        img6.setImageResource(R.drawable.empty_snack);
+        img7.setImageResource(R.drawable.empty_snack);
+        img8.setImageResource(R.drawable.empty_snack);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -100,6 +109,67 @@ public class managementActivity extends AppCompatActivity {
                     //로직 수행
                 } else {
                     img4.setImageResource(R.drawable.full_cat);
+                    //로직 수행
+                }}});
+        //빈 간식 클릭시 이미지 변경
+        img5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable tempImg = img5.getDrawable();
+                Drawable tempRes = getResources().getDrawable(R.drawable.full_snack);
+                Bitmap tmpBitmap = ((BitmapDrawable) tempImg).getBitmap();
+                Bitmap tmpBitmapRes = ((BitmapDrawable) tempRes).getBitmap();
+
+                if (tmpBitmap.equals(tmpBitmapRes)) {
+                    img5.setImageResource(R.drawable.empty_snack);
+                    //로직 수행
+                } else {
+                    img5.setImageResource(R.drawable.full_snack);
+                    //로직 수행
+                }}});
+        img6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable tempImg = img6.getDrawable();
+                Drawable tempRes = getResources().getDrawable(R.drawable.full_snack);
+                Bitmap tmpBitmap = ((BitmapDrawable) tempImg).getBitmap();
+                Bitmap tmpBitmapRes = ((BitmapDrawable) tempRes).getBitmap();
+
+                if (tmpBitmap.equals(tmpBitmapRes)) {
+                    img6.setImageResource(R.drawable.empty_snack);
+                    //로직 수행
+                } else {
+                    img6.setImageResource(R.drawable.full_snack);
+                    //로직 수행
+                }}});
+        img7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable tempImg = img7.getDrawable();
+                Drawable tempRes = getResources().getDrawable(R.drawable.full_snack);
+                Bitmap tmpBitmap = ((BitmapDrawable) tempImg).getBitmap();
+                Bitmap tmpBitmapRes = ((BitmapDrawable) tempRes).getBitmap();
+
+                if (tmpBitmap.equals(tmpBitmapRes)) {
+                    img7.setImageResource(R.drawable.empty_snack);
+                    //로직 수행
+                } else {
+                    img7.setImageResource(R.drawable.full_snack);
+                    //로직 수행
+                }}});
+        img8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable tempImg = img8.getDrawable();
+                Drawable tempRes = getResources().getDrawable(R.drawable.full_snack);
+                Bitmap tmpBitmap = ((BitmapDrawable) tempImg).getBitmap();
+                Bitmap tmpBitmapRes = ((BitmapDrawable) tempRes).getBitmap();
+
+                if (tmpBitmap.equals(tmpBitmapRes)) {
+                    img8.setImageResource(R.drawable.empty_snack);
+                    //로직 수행
+                } else {
+                    img8.setImageResource(R.drawable.full_snack);
                     //로직 수행
                 }}});
 
