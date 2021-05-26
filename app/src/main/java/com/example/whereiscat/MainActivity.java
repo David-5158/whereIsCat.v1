@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         //객체 초기화
         editText = findViewById(R.id.editText);
-        btnLocation = findViewById(R.id.button1);
-        btnKor2Loc = findViewById(R.id.button2);
+        btnLocation = findViewById(R.id.btnLocation);
+        btnKor2Loc = findViewById(R.id.btnKor2Loc);
         btn_mypage = findViewById(R.id.btn_mypage);
 
 
