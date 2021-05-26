@@ -1,15 +1,11 @@
 package com.example.whereiscat;
 
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,7 +13,7 @@ import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class managementActivity extends AppCompatActivity {
 
@@ -25,7 +21,7 @@ public class managementActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_management);
 
         btn_feed = findViewById(R.id.btn_feed1);
         btn_board = findViewById(R.id.btn_board1);
