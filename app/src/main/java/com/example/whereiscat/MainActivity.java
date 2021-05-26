@@ -38,9 +38,13 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
+<<<<<<< HEAD
     Button btnLocation, btnKor2Loc, btn_mypage;
+=======
+    Button btnLocation, btnKor2Loc,btn_mypage, btn_addCat ;
+>>>>>>> 20aca7402c2cd3fc318a938ed2164740a972b6d5
     EditText editText;
-
+    double w, g; //위도 경도 값
     MarkerOptions myMarker;
 
     @Override
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         btnLocation = findViewById(R.id.button1);
         btnKor2Loc = findViewById(R.id.button2);
         btn_mypage = findViewById(R.id.btn_mypage);
+        btn_addCat = findViewById(R.id.btn_addcat);
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
+=======
+        btn_addCat.setOnClickListener(new View.OnClickListener() { //고양이 밥 위치 추가 버튼
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+>>>>>>> 20aca7402c2cd3fc318a938ed2164740a972b6d5
 
         //지도 프래그먼트 설정
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -157,13 +171,17 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
         //화면 확대, 숫자가 클수록 확대
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 15));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 25));
 
         //마커 찍기
         Location targetLocation = new Location("");
         targetLocation.setLatitude(37.4937);
         targetLocation.setLongitude(127.0643);
         showMyMarker(targetLocation);
+
+        w = curPoint.latitude;
+        g = curPoint.longitude;
+
     }
 
     //------------------권한 설정 시작------------------------
@@ -217,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
             myMarker.snippet("여기가 어디지?");
         }
 
+<<<<<<< HEAD
         // 맵 터치 이벤트 구현 //
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
             @Override
@@ -241,5 +260,8 @@ public class MainActivity extends AppCompatActivity {
         map.addMarker(new MarkerOptions().position(pocheon).title("Marker in Pocheon"));
         map.moveCamera(CameraUpdateFactory.newLatLng(pocheon));
         map.animateCamera(CameraUpdateFactory.zoomTo(10));
+=======
+
+>>>>>>> 20aca7402c2cd3fc318a938ed2164740a972b6d5
     }
 }
