@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
         //화면 확대, 숫자가 클수록 확대
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 15));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 19));
 
         //마커 찍기
         Location targetLocation = new Location("");
@@ -195,18 +195,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 1) {
-            for (int i = 0; i < permissions.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        if (requestCode == 1) {
+//            for (int i = 0; i < permissions.length; i++) {
+//                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        }
+//    }
     //------------------권한 설정 끝------------------------
 
     private void showMyMarker(Location location) {
@@ -236,10 +236,10 @@ public class MainActivity extends AppCompatActivity {
         });
         ////////////////////
 
-        // Add a marker in Sydney and move the camera
-        LatLng pocheon = new LatLng(37.894936, 127.200344); //카메라 위치
-        map.addMarker(new MarkerOptions().position(pocheon).title("Marker in Pocheon"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(pocheon));
-        map.animateCamera(CameraUpdateFactory.zoomTo(10));
+//        // Add a marker in Sydney and move the camera
+//        LatLng pocheon = new LatLng(37.894936, 127.200344); //카메라 위치
+//        map.addMarker(new MarkerOptions().position(pocheon).title("Marker in Pocheon"));
+//        map.moveCamera(CameraUpdateFactory.newLatLng(pocheon));
+//        map.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 }
