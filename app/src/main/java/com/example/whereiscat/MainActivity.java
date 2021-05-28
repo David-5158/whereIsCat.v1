@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,6 +29,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -38,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button btnLocation, btnKor2Loc,btn_mypage, btn_addCat ;
+    Button mylocation, check,btn_mypage,btn_addcat ;
     EditText editText;
-    double w, g; //위도 경도 값
+
     MarkerOptions myMarker;
 
     @Override
@@ -53,24 +57,16 @@ public class MainActivity extends AppCompatActivity {
 
         //객체 초기화
         editText = findViewById(R.id.editText);
-        btnLocation = findViewById(R.id.button1);
-        btnKor2Loc = findViewById(R.id.button2);
+        mylocation = findViewById(R.id.mylocation);
+        check = findViewById(R.id.check);
         btn_mypage = findViewById(R.id.btn_mypage);
-        btn_addCat = findViewById(R.id.btn_addcat);
+        btn_addcat = findViewById(R.id.btn_addcat);
+
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        btn_addCat.setOnClickListener(new View.OnClickListener() { //고양이 밥 위치 추가 버튼
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, managementActivity.class);
                 startActivity(intent);
             }
         });
@@ -83,20 +79,58 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 Log.d(TAG, "onMapReady: ");
                 map = googleMap;
+                map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+                    @Override
+                    public void onMapClick(LatLng point) {
+                        MarkerOptions mOptions = new MarkerOptions();
+                        // 마커 타이틀
+                        mOptions.title("마커 좌표");
+                        Double latitude = point.latitude; // 위도
+                        Double longitude = point.longitude; // 경도
+                        // 마커의 스니펫(간단한 텍스트) 설정
+                        mOptions.snippet(latitude.toString() + ", " + longitude.toString());
+                        // LatLng: 위도 경도 쌍을 나타냄
+                        mOptions.position(new LatLng(latitude, longitude));
+                        // 마커(핀) 추가
+                        map.addMarker(mOptions);
+
+                        Location resLocation = new Location("");
+                        resLocation.setLatitude(latitude);
+                        resLocation.setLongitude(longitude);
+                        btn_addcat.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseDatabase.getInstance().getReference("Current Location")
+                                        .setValue(resLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(MainActivity.this, "Loacation Not Saved", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                    }
+                });
                 map.setMyLocationEnabled(true);
+
             }
         });
         MapsInitializer.initialize(this);
 
         //위치 확인 버튼 기능 추가
-        btnLocation.setOnClickListener(new View.OnClickListener() {
+        mylocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 requestMyLocation();
             }
         });
 
-        btnKor2Loc.setOnClickListener(new View.OnClickListener() {
+        check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(editText.getText().toString().length() > 0) {
@@ -166,16 +200,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
         //화면 확대, 숫자가 클수록 확대
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 25));
-
-        //마커 찍기
-        Location targetLocation = new Location("");
-        targetLocation.setLatitude(37.4937);
-        targetLocation.setLongitude(127.0643);
-        showMyMarker(targetLocation);
-
-        w = curPoint.latitude;
-        g = curPoint.longitude;
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 24));
 
     }
 
@@ -208,18 +233,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 1) {
-            for (int i = 0; i < permissions.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        if (requestCode == 1) {
+//            for (int i = 0; i < permissions.length; i++) {
+//                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        }
+//    }
     //------------------권한 설정 끝------------------------
 
     private void showMyMarker(Location location) {
@@ -230,30 +255,9 @@ public class MainActivity extends AppCompatActivity {
             myMarker.snippet("여기가 어디지?");
         }
 
-        // 맵 터치 이벤트 구현 //
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
-            @Override
-            public void onMapClick(LatLng point) {
-                MarkerOptions mOptions = new MarkerOptions();
-                // 마커 타이틀
-                mOptions.title("마커 좌표");
-                Double latitude = point.latitude; // 위도
-                Double longitude = point.longitude; // 경도
-                // 마커의 스니펫(간단한 텍스트) 설정
-                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
-                // LatLng: 위도 경도 쌍을 나타냄
-                mOptions.position(new LatLng(latitude, longitude));
-                // 마커(핀) 추가
-                map.addMarker(mOptions);
-            }
-        });
-        ////////////////////
 
-//        // Add a marker in Sydney and move the camera
-//        LatLng pocheon = new LatLng(37.894936, 127.200344); //카메라 위치
-//        map.addMarker(new MarkerOptions().position(pocheon).title("Marker in Pocheon"));
-//        map.moveCamera(CameraUpdateFactory.newLatLng(pocheon));
-//        map.animateCamera(CameraUpdateFactory.zoomTo(10));
+
+
 
     }
 }
