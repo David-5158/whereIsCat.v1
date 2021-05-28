@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        supportMapFragment.getMapAsync(this);
+
         //권한 설정
         checkDangerousPermissions();
 
@@ -96,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
 >>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
-
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+<<<<<<< HEAD
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 //        if (requestCode == 1) {
@@ -303,6 +306,21 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
+=======
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+>>>>>>> a611f3dd875b0ae09f18109a1d535e858f0f172c
     //------------------권한 설정 끝------------------------
 
     private void showMyMarker(Location location) {
@@ -316,6 +334,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
 
     }
 }
