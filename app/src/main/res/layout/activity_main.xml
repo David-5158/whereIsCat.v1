@@ -55,6 +55,7 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+<<<<<<< HEAD
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
@@ -65,6 +66,14 @@
 =======
         android:id="@+id/myLocationCheck"
 >>>>>>> 0b2f5120cc3d9cd2749925eb85579a74610cab1d
+=======
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="@+id/check"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/mylocation"
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"

@@ -18,11 +18,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+=======
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -65,9 +70,12 @@ public class MainActivity extends AppCompatActivity {
         check = findViewById(R.id.check);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
+<<<<<<< HEAD
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Current Location");
+=======
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
 
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                         // 마커(핀) 추가
                         map.addMarker(mOptions);
 
+<<<<<<< HEAD
                         btn_addcat.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -121,6 +130,19 @@ public class MainActivity extends AppCompatActivity {
                                             //setValue : database에 insert (삽입) 행위
                                             mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(location);
 
+=======
+                        Location resLocation = new Location("");
+                        resLocation.setLatitude(latitude);
+                        resLocation.setLongitude(longitude);
+                        btn_addcat.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseDatabase.getInstance().getReference("Current Location")
+                                        .setValue(resLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
                                             Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(MainActivity.this, "Loacation Not Saved", Toast.LENGTH_SHORT).show();
@@ -245,15 +267,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+<<<<<<< HEAD
     private void getCurrentLocation() {
         //Initialize task location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
+=======
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        if (requestCode == 1) {
+//            for (int i = 0; i < permissions.length; i++) {
+//                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        }
+//    }
+    //------------------권한 설정 끝------------------------
+
+    private void showMyMarker(Location location) {
+        if(myMarker == null) {
+            myMarker = new MarkerOptions();
+            myMarker.position(new LatLng(location.getLatitude(), location.getLongitude()));
+            myMarker.title("◎ 내위치\n");
+            myMarker.snippet("여기가 어디지?");
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
         }
 <<<<<<< HEAD
 
 
 
+<<<<<<< HEAD
 
 
     }
@@ -300,3 +346,11 @@ public class MainActivity extends AppCompatActivity {
 }
 
 >>>>>>> 0b2f5120cc3d9cd2749925eb85579a74610cab1d
+=======
+
+
+
+
+    }
+}
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
