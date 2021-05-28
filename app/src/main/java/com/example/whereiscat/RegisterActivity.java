@@ -1,7 +1,5 @@
 package com.example.whereiscat;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,79 +7,70 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText et_id, et_pass, et_nik, et_name, et_age;
-    private Button btn_register, btn_del;
+    private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
+    private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
+    private EditText et_id, et_pass ;  //회원가입 입력 필드
+    private Button mBtnRegister;   //회원가입 버튼
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) { //액티비티 시작시 처음으로 실행되는 생명주기
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //아이디 값 찾아주기
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("FirebaseLogin");
+
         et_id = findViewById(R.id.et_id);
-        et_nik = findViewById(R.id.et_nik);
         et_pass = findViewById(R.id.et_pass);
-        et_name = findViewById(R.id.et_name);
-        et_age = findViewById(R.id.et_age);
+        mBtnRegister = findViewById(R.id.btn_register);
 
-        //회원가입 버튼 클릭 시 수행
-        btn_register = findViewById(R.id.btn_register);
-        btn_register.setOnClickListener(new View.OnClickListener() {
+        mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //EditText에 현재 입력되어있는 값을 get()해온다
-                String userID = et_id.getText().toString();
-                String userNik = et_nik.getText().toString();
-                String userPass = et_pass.getText().toString();
-                String userName = et_name.getText().toString();
-                int userAge = Integer.parseInt(et_age.getText().toString());
+            public void onClick(View v) {
+                //회원가입 처리 시작
+                String strEmail = et_id.getText().toString();
+                String strPwd = et_pass.getText().toString();
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                //Firebase Auth 진행
+
+                mFirebaseAuth.createUserWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean success = jsonObject.getBoolean("success");
-                            if(success) {   //회원등록에 성공한 경우
-                                Toast.makeText(getApplicationContext(), "회원 등록에 성공하였습니다", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            }else{ //회원등록에 실패한 경우
-                                Toast.makeText(getApplicationContext(), "회원 등록에 실패하였습니다", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        if (task.isSuccessful()){
+                            FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+
+                            UserAccount account = new UserAccount();
+                            account.setIdToken(firebaseUser.getUid());
+                            account.setEmailId(firebaseUser.getEmail());
+                            account.setPassword(strPwd);
+
+                            //setValue : database에 insert (삽입) 행위
+                            mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
+
+                            Toast.makeText(RegisterActivity.this, "회원가입에 성공하였습니다", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "회원가입에 실패하였습니다", Toast.LENGTH_SHORT).show();
                         }
-
                     }
-                };
-                //서버로 Volley를 이용해서 요청을 함
-                RegisterRequest registerRequest = new RegisterRequest(userID,userNik,userPass,userName,userAge,responseListener);
-                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                queue.add(registerRequest);
+                });
             }
         });
-
-        // 클래스 다른 페이지로 이동
-        btn_del = findViewById(R.id.btn_del);
-        btn_del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
     }
 }
