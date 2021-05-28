@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -48,10 +49,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(this);
-=======
+
         //권한 설정
         checkDangerousPermissions();
 
@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         btnKor2Loc = findViewById(R.id.button2);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addCat = findViewById(R.id.btn_addcat);
-
->>>>>>> 20aca7402c2cd3fc318a938ed2164740a972b6d5
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1) {
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
@@ -234,6 +233,11 @@ public class MainActivity extends AppCompatActivity {
             myMarker.snippet("여기가 어디지?");
         }
 
+
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
 
     }
 }
