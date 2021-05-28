@@ -31,12 +31,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+<<<<<<< HEAD
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+=======
+import com.google.firebase.database.FirebaseDatabase;
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
 
 import java.util.List;
 
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         //객체 초기화
         editText = findViewById(R.id.editText);
+<<<<<<< HEAD
         mylocation = findViewById(R.id.myLocation);
         check = findViewById(R.id.check);
         btn_mypage = findViewById(R.id.btn_mypage);
@@ -85,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+=======
+        mylocation = findViewById(R.id.mylocation);
+        check = findViewById(R.id.check);
+        btn_mypage = findViewById(R.id.btn_mypage);
+        btn_addcat = findViewById(R.id.btn_addcat);
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
 
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
@@ -118,17 +129,25 @@ public class MainActivity extends AppCompatActivity {
                         // 마커(핀) 추가
                         map.addMarker(mOptions);
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
                         Location resLocation = new Location("");
                         resLocation.setLatitude(latitude);
                         resLocation.setLongitude(longitude);
                         btn_addcat.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+<<<<<<< HEAD
 
                                         myRef.setValue(resLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
+=======
+                                FirebaseDatabase.getInstance().getReference("Current Location")
+                                        .setValue(resLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
@@ -137,9 +156,13 @@ public class MainActivity extends AppCompatActivity {
                                             Toast.makeText(MainActivity.this, "Loacation Not Saved", Toast.LENGTH_SHORT).show();
                                         }
                                     }
+<<<<<<< HEAD
 
                                 });
 
+=======
+                                });
+>>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
                             }
                         });
 
