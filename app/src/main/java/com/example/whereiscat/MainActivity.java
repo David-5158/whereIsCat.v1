@@ -1,34 +1,23 @@
 package com.example.whereiscat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+<<<<<<< HEAD
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,12 +40,22 @@ public class MainActivity extends AppCompatActivity {
     EditText editText;
 
     MarkerOptions myMarker;
+=======
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+
+public class MainActivity extends AppCompatActivity {
+    //Initialize variable
+    SupportMapFragment supportMapFragment;
+    FusedLocationProviderClient client;
+>>>>>>> 0b2f5120cc3d9cd2749925eb85579a74610cab1d
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         //권한 설정
         checkDangerousPermissions();
 
@@ -221,57 +220,37 @@ public class MainActivity extends AppCompatActivity {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 24));
 
     }
+=======
+        //Asign variable
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
 
-    //------------------권한 설정 시작------------------------
-    private void checkDangerousPermissions() {
-        String[] permissions = {
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_WIFI_STATE
-        };
+        //Initialize fused location
+        client = LocationServices.getFusedLocationProviderClient(this);
+>>>>>>> 0b2f5120cc3d9cd2749925eb85579a74610cab1d
 
-        int permissionCheck = PackageManager.PERMISSION_GRANTED;
-        for (int i = 0; i < permissions.length; i++) {
-            permissionCheck = ContextCompat.checkSelfPermission(this, permissions[i]);
-            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-                break;
-            }
-        }
-
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "권한 있음", Toast.LENGTH_LONG).show();
+        //Check permission
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            //When permisson granted
+            //call method
+            getCurrentLocation();
         } else {
-            Toast.makeText(this, "권한 없음", Toast.LENGTH_LONG).show();
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-                Toast.makeText(this, "권한 설명 필요함.", Toast.LENGTH_LONG).show();
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, 1);
-            }
+            //when permission denied
+            //request permission
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
+
+
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        if (requestCode == 1) {
-//            for (int i = 0; i < permissions.length; i++) {
-//                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }
-//    }
-    //------------------권한 설정 끝------------------------
-
-    private void showMyMarker(Location location) {
-        if(myMarker == null) {
-            myMarker = new MarkerOptions();
-            myMarker.position(new LatLng(location.getLatitude(), location.getLongitude()));
-            myMarker.title("◎ 내위치\n");
-            myMarker.snippet("여기가 어디지?");
+    private void getCurrentLocation() {
+        //Initialize task location
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
+<<<<<<< HEAD
 
 
 
@@ -279,3 +258,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+=======
+        Task<Location> task = client.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                //when success
+                        if (location != null){
+                            //Sync map
+                            supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                                @Override
+                                public void onMapReady(@NonNull GoogleMap googleMap) {
+                                    //Initialize lat lng
+                                    LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+                                    //create marker option
+                                    MarkerOptions options = new MarkerOptions().position(latLng)
+                                            .title("I am there");
+                                    //zoom map
+                                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
+                                    //add marker on map
+                                    googleMap.addMarker(options);
+
+                                }
+                            });
+                        }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 44) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //when permission granted
+                //call method
+                getCurrentLocation();
+            }
+        }
+    }
+}
+
+>>>>>>> 0b2f5120cc3d9cd2749925eb85579a74610cab1d

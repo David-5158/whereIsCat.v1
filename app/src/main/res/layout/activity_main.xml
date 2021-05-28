@@ -24,7 +24,7 @@
         android:text="myPage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    onLocationChanged
     <Button
         android:id="@+id/btn_addcat"
         android:layout_width="wrap_content"
@@ -55,12 +55,16 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
     <Button
+<<<<<<< HEAD
         android:id="@+id/mylocation"
+=======
+        android:id="@+id/myLocationCheck"
+>>>>>>> 0b2f5120cc3d9cd2749925eb85579a74610cab1d
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
