@@ -22,7 +22,7 @@ public class AddCatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_addcat);
 
         neut_yes = findViewById(R.id.neut_yes);
         neut_no = findViewById(R.id.neut_no);

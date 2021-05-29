@@ -33,8 +33,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button mylocation, check,btn_mypage,btn_addcat, btn_catregister;
+    Button mylocation, check,btn_mypage,btn_addcat, btn_catregister ;
     EditText editText;
 
     MarkerOptions myMarker;
@@ -58,7 +61,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Current Location");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("FirebaseLogin");
+
+
+        //권한 설정
+        checkDangerousPermissions();
 
         //객체 초기화
         editText = findViewById(R.id.editText);
@@ -69,18 +76,18 @@ public class MainActivity extends AppCompatActivity {
         btn_catregister = findViewById(R.id.btn_catregister);
 
 
-        btn_mypage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                startActivity(intent);
-            }
-        });
-
         btn_catregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddCatActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_mypage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MypageActivity.class);
                 startActivity(intent);
             }
         });
@@ -111,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         btn_addcat.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                UserLocation location = new UserLocation();
                                 FirebaseDatabase.getInstance().getReference("Current Location")
                                         .setValue(location).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -125,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                                             location.setLongitude(longitude);
 
                                             //setValue : database에 insert (삽입) 행위
-                                            mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(location);
+                                            mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(location);
                                             Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(MainActivity.this, "Loacation Not Saved", Toast.LENGTH_SHORT).show();
@@ -138,10 +145,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 map.setMyLocationEnabled(true);
-
             }
         });
         MapsInitializer.initialize(this);
+
+
+        mDatabaseRef.child("Current Location").addValueEventListener(new ValueEventListener() {  //DB 불러오기 현재 오류남
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    UserLocation markerLocation = ds.getValue(UserLocation.class);
+                    LatLng latLng = new LatLng(markerLocation.getLatitude(), markerLocation.getLongitude());
+                    map.addMarker(new MarkerOptions().position(latLng));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         //위치 확인 버튼 기능 추가
         mylocation.setOnClickListener(new View.OnClickListener() {
