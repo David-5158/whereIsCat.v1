@@ -1,10 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
-<<<<<<< HEAD
 
-=======
->>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
+
+
 }
 
 android {
@@ -32,27 +31,26 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-<<<<<<< HEAD
 
-=======
+
+
 dependencies{
     implementation 'com.github.andremion:floatingnavigationview:1.3.0'
 }
->>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
+
 dependencies {
     implementation fileTree(dir: 'libs', includes: ['*.jar'])
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.android.material:material:1.4.0-alpha02'
     implementation 'com.android.support:support-annotations:28.0.0'
     implementation 'com.android.support:multidex:1.0.3'
-<<<<<<< HEAD
+
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-=======
->>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
+
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-database:20.0.0'
     testImplementation 'junit:junit:4.+'

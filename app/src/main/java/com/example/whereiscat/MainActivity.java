@@ -31,74 +31,58 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-<<<<<<< HEAD
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-=======
-import com.google.firebase.database.FirebaseDatabase;
->>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //로그캣 사용 설정
     private static final String TAG = "MainActivity";
+    private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
+    private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
 
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button mylocation, check,btn_mypage,btn_addcat ;
+    Button mylocation, check,btn_mypage,btn_addcat, btn_catregister ;
     EditText editText;
 
     MarkerOptions myMarker;
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Current Location").child("location1");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        supportMapFragment.getMapAsync(this);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("FirebaseLogin");
+
 
         //권한 설정
         checkDangerousPermissions();
 
         //객체 초기화
         editText = findViewById(R.id.editText);
-<<<<<<< HEAD
-        mylocation = findViewById(R.id.myLocation);
-        check = findViewById(R.id.check);
-        btn_mypage = findViewById(R.id.btn_mypage);
-        btn_addcat = findViewById(R.id.btn_addcat);
-
-//        myRef.addValueEventListener(new ValueEventListener() {  //DB 불러오기 현재 오류남
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    LocationHelper markerLocation = ds.getValue(LocationHelper.class);
-//                    LatLng latLng = new LatLng(markerLocation.getLatitude(), markerLocation.getLongitude());
-//                    map.addMarker(new MarkerOptions().position(latLng));
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        });
-
-=======
         mylocation = findViewById(R.id.mylocation);
         check = findViewById(R.id.check);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
->>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
+        btn_catregister = findViewById(R.id.btn_catregister);
+
+
+        btn_catregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddCatActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,56 +115,55 @@ public class MainActivity extends AppCompatActivity {
                         // 마커(핀) 추가
                         map.addMarker(mOptions);
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
-                        Location resLocation = new Location("");
-                        resLocation.setLatitude(latitude);
-                        resLocation.setLongitude(longitude);
                         btn_addcat.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-<<<<<<< HEAD
-
-                                        myRef.setValue(resLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
-=======
+                                UserLocation location = new UserLocation();
                                 FirebaseDatabase.getInstance().getReference("Current Location")
-                                        .setValue(resLocation).addOnCompleteListener(new OnCompleteListener<Void>() {
->>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
+                                        .setValue(location).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
+                                        if (task.isSuccessful()) {
+                                            FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+
+                                            UserLocation location = new UserLocation();
+                                            location.setIdToken(firebaseUser.getUid());
+                                            location.setLatitude(latitude);
+                                            location.setLongitude(longitude);
+
+                                            //setValue : database에 insert (삽입) 행위
+                                            mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(location);
                                             Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(MainActivity.this, "Loacation Not Saved", Toast.LENGTH_SHORT).show();
                                         }
                                     }
-<<<<<<< HEAD
-
                                 });
-
-=======
-                                });
->>>>>>> 5b4d977d40c8547227afe777de2d281af5d84150
                             }
                         });
 
                     }
                 });
                 map.setMyLocationEnabled(true);
-
             }
         });
         MapsInitializer.initialize(this);
 
 
-        // Read from the database
+        mDatabaseRef.child("Current Location").addValueEventListener(new ValueEventListener() {  //DB 불러오기 현재 오류남
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    UserLocation markerLocation = ds.getValue(UserLocation.class);
+                    LatLng latLng = new LatLng(markerLocation.getLatitude(), markerLocation.getLongitude());
+                    map.addMarker(new MarkerOptions().position(latLng));
+                }
+            }
 
-
-
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         //위치 확인 버튼 기능 추가
         mylocation.setOnClickListener(new View.OnClickListener() {
@@ -293,7 +276,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-<<<<<<< HEAD
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 //        if (requestCode == 1) {
@@ -306,21 +288,6 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
-=======
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            for (int i = 0; i < permissions.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
->>>>>>> a611f3dd875b0ae09f18109a1d535e858f0f172c
     //------------------권한 설정 끝------------------------
 
     private void showMyMarker(Location location) {
@@ -334,11 +301,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
 
     }
 }
