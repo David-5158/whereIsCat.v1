@@ -254,10 +254,5 @@ public class MainActivity extends AppCompatActivity {
             myMarker.title("◎ 내위치\n");
             myMarker.snippet("여기가 어디지?");
         }
-
-
-
-
-
     }
 }
