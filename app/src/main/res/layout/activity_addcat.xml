@@ -145,24 +145,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:backgroundTint="#DAFF7A7A"
-                    android:text="yes" />
+                    android:text="yes"
+                    app:backgroundTint="#DACA8D8D" />
 
                 <Button
                     android:id="@+id/neut_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:backgroundTint="#DAFF7A7A"
-                    android:text="no" />
+                    android:text="no"
+                    app:backgroundTint="#DACA8D8D" />
 
                 <Button
                     android:id="@+id/neut_what"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:backgroundTint="#DAFF7A7A"
-                    android:text="don't konw" />
+                    android:text="don't konw"
+                    app:backgroundTint="#DACA8D8D" />
             </LinearLayout>
 
             <LinearLayout
@@ -175,8 +175,8 @@
                     android:id="@+id/cat_finish"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:backgroundTint="#D55656"
-                    android:text="FINISH" />
+                    android:text="FINISH"
+                    app:backgroundTint="#4C4545" />
             </LinearLayout>
 
 
