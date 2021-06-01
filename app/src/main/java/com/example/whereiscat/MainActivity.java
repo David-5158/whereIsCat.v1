@@ -22,12 +22,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     //로그캣 사용 설정
     private static final String TAG = "MainActivity";
     private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     GoogleMap map;
     Button mylocation, check,btn_mypage,btn_addcat, btn_catregister ;
     EditText editText;
+
+
 
     MarkerOptions myMarker;
 
@@ -79,12 +83,11 @@ public class MainActivity extends AppCompatActivity {
         btn_catregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddCatActivity.class);
-                startActivity(intent);
+
             }
         });
 
-        btn_mypage.setOnClickListener(new View.OnClickListener() {
+        btn_mypage.setOnClickListener(new View.OnClickListener() { //마이페이지
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MypageActivity.class);
@@ -114,10 +117,13 @@ public class MainActivity extends AppCompatActivity {
                         mOptions.position(new LatLng(latitude, longitude));
                         // 마커(핀) 추가
                         map.addMarker(mOptions);
+                        //마커 클릭
 
-                        btn_addcat.setOnClickListener(new View.OnClickListener() {
+                        btn_addcat.setOnClickListener(new View.OnClickListener() {  //고양이 추가 버튼(마커를 찍어야지만 작동함)
                             @Override
                             public void onClick(View v) {
+                                Intent intent = new Intent(MainActivity.this, AddCatActivity.class);
+                                startActivity(intent);
                                 UserLocation location = new UserLocation();
                                 FirebaseDatabase.getInstance().getReference("Current Location")
                                         .setValue(location).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -150,20 +156,32 @@ public class MainActivity extends AppCompatActivity {
         MapsInitializer.initialize(this);
 
 
-        mDatabaseRef.child("Current Location").addValueEventListener(new ValueEventListener() {  //DB 불러오기 현재 오류남
+        mDatabaseRef.child("Current Location").addValueEventListener(new ValueEventListener() {  //DB에서 마커 불러오기
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     UserLocation markerLocation = ds.getValue(UserLocation.class);
                     LatLng latLng = new LatLng(markerLocation.getLatitude(), markerLocation.getLongitude());
                     map.addMarker(new MarkerOptions().position(latLng));
+
                 }
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {  //마커 클릭 시 이벤트
+                    @Override
+                    public boolean onMarkerClick(@NonNull Marker marker) {
+                        Intent intent = new Intent(MainActivity.this, managementActivity.class);
+                        startActivity(intent);
+                        return false;
+                    }
+                });
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+
 
         //위치 확인 버튼 기능 추가
         mylocation.setOnClickListener(new View.OnClickListener() {
@@ -264,9 +282,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "권한 있음", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "권한 있음", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "권한 없음", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "권한 없음", Toast.LENGTH_LONG).show();
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
                 Toast.makeText(this, "권한 설명 필요함.", Toast.LENGTH_LONG).show();
