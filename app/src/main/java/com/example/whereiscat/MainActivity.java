@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity{
 
                                             //setValue : database에 insert (삽입) 행위
                                             mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(location);
-                                            Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            Toast.makeText(MainActivity.this, "Loacation Not Saved", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(MainActivity.this, "Loacation Not Saved", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });

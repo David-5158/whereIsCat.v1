@@ -51,7 +51,7 @@ public class AddCatActivity extends AppCompatActivity {
                 String strNickname = cat_nickname.getText().toString(); //닉네임
                 String strSpecies = cat_species.getText().toString();   //추정종
                 FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-//                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).push().setValue(strNickname);  //데이터베이스에 닉네임 저장 -> 이거 고쳐야댐
+                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).push().setValue(strNickname);  //데이터베이스에 닉네임 저장 -> 이거 고쳐야댐
                 Intent intent = new Intent(AddCatActivity.this, MainActivity.class); // 저장 후 엑티비티 종료
                 startActivity(intent);
                 finish(); //현재 액티비티 파괴
