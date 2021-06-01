@@ -23,7 +23,7 @@ public class AddCatActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
     private ImageView imageView;
-    private EditText cat_nickname, cat_species;  //닉네임, 추정종
+    private EditText cat_nickname, cat_species, cat_feature, cat_neut;  //닉네임, 추정종, 특징
     private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     Button neut_yes, neut_no, neut_what, cat_finish;
@@ -35,6 +35,7 @@ public class AddCatActivity extends AppCompatActivity {
 
         cat_nickname = findViewById(R.id.cat_nickname);
         cat_species = findViewById(R.id.cat_species);
+        cat_feature = findViewById(R.id.cat_feature);
 
         neut_yes = findViewById(R.id.neut_yes);
         neut_no = findViewById(R.id.neut_no);
@@ -50,8 +51,12 @@ public class AddCatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String strNickname = cat_nickname.getText().toString(); //닉네임
                 String strSpecies = cat_species.getText().toString();   //추정종
+                String strFeature = cat_feature.getText().toString();   //특징
+                String btnYes = neut_yes.getText().toString();
                 FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).push().setValue(strNickname);  //데이터베이스에 닉네임 저장 -> 이거 고쳐야댐
+                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).child("information").push().setValue(strNickname);
+                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).child("information").push().setValue(strSpecies);
+                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).child("information").push().setValue(strFeature);
                 Intent intent = new Intent(AddCatActivity.this, MainActivity.class); // 저장 후 엑티비티 종료
                 startActivity(intent);
                 finish(); //현재 액티비티 파괴
