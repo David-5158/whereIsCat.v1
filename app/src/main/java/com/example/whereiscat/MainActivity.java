@@ -12,9 +12,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,10 +29,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button mylocation, check,btn_mypage,btn_addcat, btn_catregister ;
+    Button mylocation,btn_mypage,btn_addcat, btn_catregister ;
     EditText editText;
 
     MarkerOptions myMarker;
@@ -68,19 +73,44 @@ public class MainActivity extends AppCompatActivity {
         checkDangerousPermissions();
 
         //객체 초기화
-        editText = findViewById(R.id.editText);
-        mylocation = findViewById(R.id.mylocation);
-        check = findViewById(R.id.check);
+//        mylocation = findViewById(R.id.mylocation);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
         btn_catregister = findViewById(R.id.btn_catregister);
 
 
+
+        Button buttonShow = findViewById(R.id.buttonShow);
+        buttonShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
+                        MainActivity.this, R.style.BotttomSheetDialogTheme
+                );
+                View bottomSheetView = LayoutInflater.from(getApplicationContext())
+                        .inflate(
+                                R.layout.layout_bottom_sheet,
+                                (LinearLayout)findViewById(R.id.bottomSheetContainer)
+                        );
+                bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(MainActivity.this, "Share...", Toast.LENGTH_SHORT).show();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.show();
+
+            }
+        });
+
+
         btn_catregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddCatActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(MainActivity.this, AddCatActivity.class);
+                startActivity(intent1);
             }
         });
 
@@ -104,12 +134,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onMapClick(LatLng point) {
                         MarkerOptions mOptions = new MarkerOptions();
+                        UserLocation location = new UserLocation();
+
                         // 마커 타이틀
                         mOptions.title("마커 좌표");
                         Double latitude = point.latitude; // 위도
                         Double longitude = point.longitude; // 경도
                         // 마커의 스니펫(간단한 텍스트) 설정
-                        mOptions.snippet(latitude.toString() + ", " + longitude.toString());
+                        mOptions.snippet(location.toString() + ", " + longitude.toString())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat));
                         // LatLng: 위도 경도 쌍을 나타냄
                         mOptions.position(new LatLng(latitude, longitude));
                         // 마커(핀) 추가
@@ -144,6 +177,13 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(@NonNull Marker marker) {
+                        return false;
+                    }
+                });
                 map.setMyLocationEnabled(true);
             }
         });
@@ -156,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     UserLocation markerLocation = ds.getValue(UserLocation.class);
                     LatLng latLng = new LatLng(markerLocation.getLatitude(), markerLocation.getLongitude());
-                    map.addMarker(new MarkerOptions().position(latLng));
+                    map.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat)));
                 }
             }
 
@@ -166,23 +206,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //위치 확인 버튼 기능 추가
-        mylocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requestMyLocation();
-            }
-        });
-
-        check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(editText.getText().toString().length() > 0) {
-                    Location location = getLocationFromAddress(getApplicationContext(), editText.getText().toString());
-
-                    showCurrentLocation(location);
-                }
-            }
-        });
+//        mylocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                requestMyLocation();
+//            }
+//        });
+//
     }
 
     private Location getLocationFromAddress(Context context, String address) {
@@ -235,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     private void showCurrentLocation(Location location) {
         LatLng curPoint = new LatLng(location.getLatitude(), location.getLongitude());

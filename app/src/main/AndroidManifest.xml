@@ -50,6 +50,9 @@
         <activity android:name=".NoticeActivity"></activity>
         <activity android:name=".AskActivity"></activity>
         <activity android:name=".MypageActivity"></activity>
+        <activity android:name=".AddCatActivity"/>
+        <activity android:name=".managementActivity"/>
+        
     </application>
 
 </manifest>
