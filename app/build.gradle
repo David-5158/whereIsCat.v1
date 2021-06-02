@@ -49,13 +49,13 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-<<<<<<< HEAD
+
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    implementation 'com.android.support:cardview-v7:28.0.0'
-=======
+
+
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     //RoundedImage View
     implementation 'com.makeramen:roundedimageview:2.3.0'
->>>>>>> db419aa522c871082260d960dcbbfadf445bed1f
+
 }

@@ -35,6 +35,11 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#000000"/>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -59,6 +64,11 @@
                 android:textColorHint="#423D3D"
                 android:textSize="14sp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#000000"/>
 
 
         <LinearLayout
@@ -110,7 +120,7 @@
                 android:layout_gravity="top"
                 android:height="477dp"
                 android:gravity="top"
-                android:hint="                                     문의 내용을 작성해주세요"
+                android:hint="/문의 내용을 작성해주세요/"
                 android:textColor="#000000"
                 android:textColorHint="#423D3D"
                 android:textSize="14sp" />

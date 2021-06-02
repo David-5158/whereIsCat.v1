@@ -11,14 +11,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
 
         <LinearLayout
             android:id="@+id/rl_001"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="#FFFFFF"
             android:orientation="horizontal">
 
 
@@ -35,27 +36,37 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#000000" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00BFFF"/>
+            android:background="#FFFFFF" />
 
         <Button
             android:id="@+id/cat_finish"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:gravity="left"
-            android:textStyle="bold"
-            android:text="1. 앱이 정상적으로 작동하지 않을 때" />
+            android:text="1. 앱이 정상적으로 작동하지 않을 때"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#A1A1A8"/>
 
         <Button
             android:id="@+id/button4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:gravity="left"
-            android:textStyle="bold"
-            android:text="2. 내 위치가 어딘지 모를 때" />
+            android:text="2. 내 위치가 어딘지 모를 때"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
