@@ -89,7 +89,7 @@ public class AddCatActivity extends AppCompatActivity {
             }
         });
 
-        imageView = findViewById(R.id.image);
+        imageView = findViewById(R.id.imageView2);
 
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
