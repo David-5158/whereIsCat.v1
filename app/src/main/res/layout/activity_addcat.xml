@@ -76,15 +76,17 @@
                 android:hint="별명을 입력해주세요"
                 android:inputType="textPersonName"
                 android:paddingLeft="15dp"
+                android:paddingTop="15dp"
                 android:textColor="#000000"
-                android:textColorHint="#423D3D" />
+                android:textColorHint="#423D3D"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/species"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
-                android:paddingTop="20dp"
+                android:paddingTop="25dp"
                 android:text="추정 종"
                 android:textColor="#000000"
                 android:textSize="18sp"
@@ -98,15 +100,17 @@
                 android:hint="추정되는 종을 입력해주세요"
                 android:inputType="textPersonName"
                 android:paddingLeft="15dp"
+                android:paddingTop="15dp"
                 android:textColor="#000000"
-                android:textColorHint="#423D3D" />
+                android:textColorHint="#423D3D"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/feature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
-                android:paddingTop="20dp"
+                android:paddingTop="25dp"
                 android:text="특징"
                 android:textColor="#000000"
                 android:textSize="18sp"
@@ -120,8 +124,10 @@
                 android:hint="고양이의 특징을 입력해주세요"
                 android:inputType="textPersonName"
                 android:paddingLeft="15dp"
+                android:paddingTop="15dp"
                 android:textColor="#000000"
-                android:textColorHint="#423D3D" />
+                android:textColorHint="#423D3D"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/neut"
