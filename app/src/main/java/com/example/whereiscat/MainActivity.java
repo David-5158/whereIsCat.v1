@@ -76,10 +76,15 @@ public class MainActivity extends AppCompatActivity {
 //        mylocation = findViewById(R.id.mylocation);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
+        mylocation = findViewById(R.id.mylocation);
 
-
-
-
+        mylocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, managementActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
             @Override
