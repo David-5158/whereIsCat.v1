@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,18 +46,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     //로그캣 사용 설정
     private static final String TAG = "MainActivity";
     private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
+    private FirebaseUser firebaseUser;
 
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
     Button mylocation,btn_mypage,btn_addcat, btn_catregister ;
     EditText editText;
+//    TextView cat_title,cat_description;
 
     MarkerOptions myMarker;
 
@@ -77,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
 
-
+//        cat_title = (TextView)findViewById(R.id.cat_title);
+//        cat_description = (TextView)findViewById(R.id.cat_description);
 
 
 
@@ -154,44 +159,86 @@ public class MainActivity extends AppCompatActivity {
         MapsInitializer.initialize(this);
 
 
-        mDatabaseRef.child("Current Location").addValueEventListener(new ValueEventListener() {  //DB 불러오기 현재 오류남
+        ValueEventListener valueEventListener = mDatabaseRef.child("Current Location").addValueEventListener(new ValueEventListener() {  //DB 불러오기 현재 오류남
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     UserLocation markerLocation = ds.getValue(UserLocation.class);
                     LatLng latLng = new LatLng(markerLocation.getLatitude(), markerLocation.getLongitude());
-                    map.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat)));
+                    map.addMarker(new MarkerOptions().title(markerLocation.idToken).position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat)));
                 }
 
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {  //마커 클릭 시 이벤트
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
-                        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
-                                MainActivity.this, R.style.BotttomSheetDialogTheme
-                        );
-                        View bottomSheetView = LayoutInflater.from(getApplicationContext())
-                                .inflate(
-                                        R.layout.layout_bottom_sheet,
-                                        (LinearLayout)findViewById(R.id.bottomSheetContainer)
-                                );
-                        bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener(){
+                        String token = marker.getTitle();
+
+                        mDatabaseRef.child("Cat Information").child(token).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>(){
+
                             @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(MainActivity.this, managementActivity.class); //상세보기
-                                startActivity(intent);
-                                bottomSheetDialog.dismiss();
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.e("firebase", "Error getting data", task.getException());
+                                }
+                                else {
+                                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                                    Map<String, Object> catinfo = (Map<String, Object>) task.getResult().getValue();
+                                    //CatInformation catinfo = (CatInformation) task.getResult().getValue();
+                                    final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
+                                            MainActivity.this, R.style.BotttomSheetDialogTheme
+                                    );
+                                    View bottomSheetView = LayoutInflater.from(getApplicationContext())
+                                            .inflate(
+                                                    R.layout.layout_bottom_sheet,
+                                                    (LinearLayout) findViewById(R.id.bottomSheetContainer)
+                                            );
+                                    TextView catTitle = bottomSheetView.findViewById(R.id.cat_title);
+                                    TextView catSpecies = bottomSheetView.findViewById(R.id.cat_description);
+                                    TextView catFeature = bottomSheetView.findViewById(R.id.cat_feature);
+                                    catTitle.setText(catinfo.get("title").toString());
+                                    catSpecies.setText(catinfo.get("title").toString());
+                                    catFeature.setText(catinfo.get("title").toString());
+                                    bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent(MainActivity.this, managementActivity.class); //상세보기
+                                            startActivity(intent);
+                                            bottomSheetDialog.dismiss();
+                                        }
+                                    });
+                                    bottomSheetDialog.setContentView(bottomSheetView);
+                                    bottomSheetDialog.show();
+                                }
                             }
                         });
-                        bottomSheetDialog.setContentView(bottomSheetView);
-                        bottomSheetDialog.show();
+
+
                         return false;
                     }
                 });
+
+//                if (DataSnapshot.getValue(String.class) != null) {
+//
+//                    String key = dataSnapshot.getKey();
+//                    if (key.equals("feature")) {
+//
+//                        String title = dataSnapshot.getValue(String.class);
+//                        cat_title.setText(title);
+//                    }
+//                    if (key.equals("nick")) {
+//
+//                        String description = dataSnapshot.getValue(String.class);
+//                        cat_description.setText(description);
+//
+//                    }
+//                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
+
+
         });
 
         //위치 확인 버튼 기능 추가
@@ -318,4 +365,5 @@ public class MainActivity extends AppCompatActivity {
             myMarker.snippet("여기가 어디지?");
         }
     }
+
 }

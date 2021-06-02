@@ -80,8 +80,13 @@
                 android:textStyle="bold" />
 
             <EditText
+<<<<<<< HEAD
                 android:id="@+id/cat_nickname"
                 android:layout_width="match_parent"
+=======
+                android:id="@+id/title"
+                android:layout_width="342dp"
+>>>>>>> 5547e5ce0a0085a50a2952be26ec4baca379743d
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="center_vertical"
@@ -110,8 +115,13 @@
                 android:textStyle="bold" />
 
             <EditText
+<<<<<<< HEAD
                 android:id="@+id/cat_species"
                 android:layout_width="match_parent"
+=======
+                android:id="@+id/description"
+                android:layout_width="342dp"
+>>>>>>> 5547e5ce0a0085a50a2952be26ec4baca379743d
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="추정되는 종을 입력해주세요"
@@ -128,7 +138,7 @@
                 android:background="#A1A1A8"/>
 
             <TextView
-                android:id="@+id/feature"
+                android:id="@+id/cat_feature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
@@ -139,8 +149,13 @@
                 android:textStyle="bold" />
 
             <EditText
+<<<<<<< HEAD
                 android:id="@+id/cat_feature"
                 android:layout_width="match_parent"
+=======
+                android:id="@+id/feature"
+                android:layout_width="342dp"
+>>>>>>> 5547e5ce0a0085a50a2952be26ec4baca379743d
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="고양이의 특징을 입력해주세요"
