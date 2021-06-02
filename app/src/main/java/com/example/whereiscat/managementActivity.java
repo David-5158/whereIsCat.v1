@@ -2,6 +2,7 @@ package com.example.whereiscat;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -171,6 +172,13 @@ public class managementActivity extends AppCompatActivity {
                     img8.setImageResource(R.drawable.full_snack);
                     //로직 수행
                 }}});
+        btn_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(managementActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     public class MyGalleryAdapter extends BaseAdapter {
         Context context;

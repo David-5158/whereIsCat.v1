@@ -33,9 +33,11 @@ public class AddCatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addcat);
 
+
         cat_nickname = findViewById(R.id.cat_nickname);
         cat_species = findViewById(R.id.cat_species);
         cat_feature = findViewById(R.id.cat_feature);
+
 
         neut_yes = findViewById(R.id.neut_yes);
         neut_no = findViewById(R.id.neut_no);
