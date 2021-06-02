@@ -50,9 +50,19 @@
                 android:text="@string/women_s_synthetic_lines_dress"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="17sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/cat_title"/>
+
+            oo<TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="kitkat"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15sp"
+                android:id="@+id/cat_description"/>
 
             <TextView
+                android:id="@+id/cat_feature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="kitkat"
@@ -98,33 +108,7 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="12dp">
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="10dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_share"
-            app:tint="@color/colorSecondaryText" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="25dp"
-            android:text="@string/share_product_via"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="15sp" />
-    </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
