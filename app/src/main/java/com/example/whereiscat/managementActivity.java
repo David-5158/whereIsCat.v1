@@ -24,8 +24,7 @@ public class managementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management);
 
-        btn_feed = findViewById(R.id.btn_feed1);
-        btn_board = findViewById(R.id.btn_board1);
+
         btn_finish = findViewById(R.id.btn_finish1);
 
         ImageView img1 = (ImageView)findViewById(R.id.empty_feed1); //빈밥그릇
@@ -57,7 +56,7 @@ public class managementActivity extends AppCompatActivity {
         img11.setImageResource(R.drawable.water_e180);  //이미지뷰에 이미지를 변경
         img12.setImageResource(R.drawable.water_e300);
         img13.setImageResource(R.drawable.water_e500);
-        img14.setImageResource(R.drawable.water_1l);
+        img14.setImageResource(R.drawable.water_e1l);
 
         Gallery gallery = (Gallery) findViewById(R.id.gallery1);
         MyGalleryAdapter galAdapter = new MyGalleryAdapter(this);
