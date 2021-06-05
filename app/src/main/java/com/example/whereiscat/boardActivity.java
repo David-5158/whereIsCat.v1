@@ -2,7 +2,11 @@ package com.example.whereiscat;
 
 
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.widget.ArrayAdapter;
+=======
+import android.view.View;
+>>>>>>> 0cbb848997aa5c8f4809dbfe5fffd167ffd55fb8
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -10,6 +14,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+<<<<<<< HEAD
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +24,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+=======
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+>>>>>>> 0cbb848997aa5c8f4809dbfe5fffd167ffd55fb8
 
 public class boardActivity extends AppCompatActivity {
 
