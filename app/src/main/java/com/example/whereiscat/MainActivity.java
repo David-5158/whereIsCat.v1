@@ -80,10 +80,7 @@ public class MainActivity extends AppCompatActivity {
 //        mylocation = findViewById(R.id.mylocation);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
-
-//        cat_title = (TextView)findViewById(R.id.cat_title);
-//        cat_description = (TextView)findViewById(R.id.cat_description);
-
+        mylocation = findViewById(R.id.mylocation);
 
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {

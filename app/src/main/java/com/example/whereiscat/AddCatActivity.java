@@ -37,7 +37,7 @@ public class AddCatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_addcat);
 
 
-        title = findViewById(R.id.title);
+        title = findViewById(R.id.write_title);
         description = findViewById(R.id.description);
         feature = findViewById(R.id.feature);
 
@@ -121,6 +121,4 @@ public class AddCatActivity extends AppCompatActivity {
                 Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
             }
         }
-
-
     }}
