@@ -172,9 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
                         String token = marker.getTitle();
-
                         mDatabaseRef.child("Cat Information").child(token).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>(){
-
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
                                 if (!task.isSuccessful()) {
@@ -196,8 +194,8 @@ public class MainActivity extends AppCompatActivity {
                                     TextView catSpecies = bottomSheetView.findViewById(R.id.cat_description);
                                     TextView catFeature = bottomSheetView.findViewById(R.id.cat_feature);
                                     catTitle.setText(catinfo.get("title").toString());
-                                    catSpecies.setText(catinfo.get("title").toString());
-                                    catFeature.setText(catinfo.get("title").toString());
+                                    catSpecies.setText(catinfo.get("description").toString());
+                                    catFeature.setText(catinfo.get("feature").toString());
                                     bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -211,9 +209,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
-
-                        return false;
+                        return true;
                     }
                 });
 
@@ -241,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        //위치 확인 버튼 기능 추가
+//        //위치 확인 버튼 기능 추가
 //        mylocation.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
