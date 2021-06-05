@@ -141,7 +141,7 @@
             android:textColor="#000000" />
 
         <Button
-            android:layout_width="412dp"
+            android:layout_width="match_parent"
             android:layout_height="61dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"

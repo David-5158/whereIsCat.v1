@@ -59,7 +59,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:orientation="vertical"
             android:background="#FFFFFF">
 
@@ -165,9 +165,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="111dp"
-                android:orientation="horizontal"
-                android:background="#FFFFFF">
+                android:layout_height="112dp"
+                android:background="#FFFFFF"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/neut_yes"
@@ -192,6 +192,7 @@
                     android:layout_weight="1"
                     android:text="don't konw"
                     app:backgroundTint="#DACA8D8D" />
+
             </LinearLayout>
 
             <View
@@ -201,14 +202,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
 
                 <Button
                     android:id="@+id/cat_finish"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="FINISH"
                     app:backgroundTint="#4C4545" />
             </LinearLayout>
