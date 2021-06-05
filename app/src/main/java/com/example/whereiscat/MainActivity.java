@@ -193,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
                                     TextView catSpecies = bottomSheetView.findViewById(R.id.cat_description);
                                     TextView catFeature = bottomSheetView.findViewById(R.id.cat_feature);
                                     catTitle.setText(catinfo.get("title").toString());
-                                    catSpecies.setText(catinfo.get("title").toString());
-                                    catFeature.setText(catinfo.get("title").toString());
+                                    catSpecies.setText(catinfo.get("description").toString());
+                                    catFeature.setText(catinfo.get("feature").toString());
                                     bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
