@@ -10,12 +10,14 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button mylocation,btn_mypage,btn_addcat, btn_catregister ;
+    Button mylocation,btn_mypage,btn_addcat, btn_catregister, btn_remove ;
     EditText editText;
 //    TextView cat_title,cat_description;
 
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 //        mylocation = findViewById(R.id.mylocation);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
+        btn_remove = findViewById(R.id.button123);
 
 //        cat_title = (TextView)findViewById(R.id.cat_title);
 //        cat_description = (TextView)findViewById(R.id.cat_description);
@@ -102,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 Log.d(TAG, "onMapReady: ");
                 map = googleMap;
+                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(Dongrae);
+                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
                     @Override
                     public void onMapClick(LatLng point) {
@@ -113,8 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         Double latitude = point.latitude; // 위도
                         Double longitude = point.longitude; // 경도
                         // 마커의 스니펫(간단한 텍스트) 설정
-                        mOptions.snippet(location.toString() + ", " + longitude.toString())
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat));
+                        mOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat));
                         // LatLng: 위도 경도 쌍을 나타냄
                         mOptions.position(new LatLng(latitude, longitude));
                         // 마커(핀) 추가
@@ -195,9 +201,11 @@ public class MainActivity extends AppCompatActivity {
                                     TextView catTitle = bottomSheetView.findViewById(R.id.cat_title);
                                     TextView catSpecies = bottomSheetView.findViewById(R.id.cat_description);
                                     TextView catFeature = bottomSheetView.findViewById(R.id.cat_feature);
+                                    ImageView catPhoto = bottomSheetView.findViewById(R.id.cat_image);
                                     catTitle.setText(catinfo.get("title").toString());
                                     catSpecies.setText(catinfo.get("title").toString());
                                     catFeature.setText(catinfo.get("title").toString());
+                                    catPhoto.setImageURI(Uri.parse(catinfo.get("title").toString()));
                                     bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -209,6 +217,15 @@ public class MainActivity extends AppCompatActivity {
                                     bottomSheetDialog.setContentView(bottomSheetView);
                                     bottomSheetDialog.show();
                                 }
+                            }
+                        });
+                        btn_remove.setOnClickListener(new View.OnClickListener() {  //마커 지웠을 때 데이터베이스 지우기
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+                                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(null);
+                                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(null);
+                                marker.remove();
                             }
                         });
 
@@ -251,24 +268,24 @@ public class MainActivity extends AppCompatActivity {
 //
     }
 
-    private Location getLocationFromAddress(Context context, String address) {
-        Geocoder geocoder = new Geocoder(context);
-        List<Address> addresses;
-        Location resLocation = new Location("");
-        try {
-            addresses = geocoder.getFromLocationName(address, 5);
-            if((addresses == null) || (addresses.size() == 0)) {
-                return null;
-            }
-            Address addressLoc = addresses.get(0);
-            resLocation.setLatitude(addressLoc.getLatitude());
-            resLocation.setLongitude(addressLoc.getLongitude());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resLocation;
-    }
+//    private Location getLocationFromAddress(Context context, String address) {
+//        Geocoder geocoder = new Geocoder(context);
+//        List<Address> addresses;
+//        Location resLocation = new Location("");
+//        try {
+//            addresses = geocoder.getFromLocationName(address, 5);
+//            if((addresses == null) || (addresses.size() == 0)) {
+//                return null;
+//            }
+//            Address addressLoc = addresses.get(0);
+//            resLocation.setLatitude(addressLoc.getLatitude());
+//            resLocation.setLongitude(addressLoc.getLongitude());
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return resLocation;
+//    }
 
     private void requestMyLocation() {
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -357,18 +374,18 @@ public class MainActivity extends AppCompatActivity {
 //    }
     //------------------권한 설정 끝------------------------
 
-    private void showMyMarker(Location location) {
-        if(myMarker == null) {
-            myMarker = new MarkerOptions();
-            myMarker.position(new LatLng(location.getLatitude(), location.getLongitude()));
-            myMarker.title("◎ 내위치\n");
-            myMarker.snippet("여기가 어디지?");
-        }
-
-
-
-
-
-    }
+//    private void showMyMarker(Location location) {
+//        if(myMarker == null) {
+//            myMarker = new MarkerOptions();
+//            myMarker.position(new LatLng(location.getLatitude(), location.getLongitude()));
+//            myMarker.title("◎ 내위치\n");
+//            myMarker.snippet("여기가 어디지?");
+//        }
+//
+//
+//
+//
+//
+//    }
 
 }

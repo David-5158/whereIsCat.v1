@@ -79,20 +79,23 @@ public class AddCatActivity extends AppCompatActivity {
                 String catDescription = description.getText().toString();
                 String catFeature = feature.getText().toString();
 
+
+
                 FirebaseDatabase.getInstance().getReference("Cat Information")
                         .setValue(information).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-
                             CatInformation information = new CatInformation();
                             information.setIdToken(firebaseUser.getUid());
                             information.setTitle(catTitle);
                             information.setDescription(catDescription);
                             information.setFeature(catFeature);
 
-                            //setValue : database에 insert (삽입) 행위
+
+
+//                            setValue : database에 insert (삽입) 행위
                             mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(information);
 
 //                                            Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
@@ -122,7 +125,7 @@ public class AddCatActivity extends AppCompatActivity {
         });
     }
 
-    public void uploadImage(){
+    public void uploadImage(){  //DB에 사진 업로드
         StorageReference mountainsRef = mStorageRef.child("user").child("email"+".jpg");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -142,31 +145,13 @@ public class AddCatActivity extends AppCompatActivity {
                 String photoUrl = String.valueOf(downloadUrl);
                 Log.d("url", photoUrl);
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("Cat Information");
-
                 Hashtable<String, String> profile = new Hashtable<String,String>();
                 profile.put("photo", photoUrl);
+
                 FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(profile);
-//                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        DataSnapshot dataSnapshot = null;
-//                        String s = dataSnapshot.getValue().toString();
-//                        Log.d("Profile",s);
-//                        if(dataSnapshot != null){
-//
-//                        }
-//                    }
-//
-//
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
+                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).child("photo").setValue(profile);
+
+
             }
         });
     }
