@@ -141,6 +141,12 @@
                     android:layout_weight="1"
                     android:text="don't konw" />
 
+                <Button
+                    android:id="@+id/cat_finish"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="FINISH" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -149,11 +155,6 @@
                 android:orientation="vertical">
 
 
-                <Button
-                    android:id="@+id/cat_finish"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="FINISH" />
             </LinearLayout>
 
 

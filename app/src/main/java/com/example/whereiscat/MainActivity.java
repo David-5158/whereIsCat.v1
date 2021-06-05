@@ -105,10 +105,6 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 Log.d(TAG, "onMapReady: ");
                 map = googleMap;
-                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(Dongrae);
-                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
                     @Override
                     public void onMapClick(LatLng point) {
@@ -203,9 +199,10 @@ public class MainActivity extends AppCompatActivity {
                                     TextView catFeature = bottomSheetView.findViewById(R.id.cat_feature);
                                     ImageView catPhoto = bottomSheetView.findViewById(R.id.cat_image);
                                     catTitle.setText(catinfo.get("title").toString());
-                                    catSpecies.setText(catinfo.get("title").toString());
-                                    catFeature.setText(catinfo.get("title").toString());
-                                    catPhoto.setImageURI(Uri.parse(catinfo.get("title").toString()));
+                                    catSpecies.setText(catinfo.get("description").toString());
+                                    catFeature.setText(catinfo.get("feature").toString());
+                                    catPhoto.setImageURI(Uri.parse(catinfo.get("photo").toString()));
+
                                     bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -268,24 +265,24 @@ public class MainActivity extends AppCompatActivity {
 //
     }
 
-//    private Location getLocationFromAddress(Context context, String address) {
-//        Geocoder geocoder = new Geocoder(context);
-//        List<Address> addresses;
-//        Location resLocation = new Location("");
-//        try {
-//            addresses = geocoder.getFromLocationName(address, 5);
-//            if((addresses == null) || (addresses.size() == 0)) {
-//                return null;
-//            }
-//            Address addressLoc = addresses.get(0);
-//            resLocation.setLatitude(addressLoc.getLatitude());
-//            resLocation.setLongitude(addressLoc.getLongitude());
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return resLocation;
-//    }
+    private Location getLocationFromAddress(Context context, String address) {
+        Geocoder geocoder = new Geocoder(context);
+        List<Address> addresses;
+        Location resLocation = new Location("");
+        try {
+            addresses = geocoder.getFromLocationName(address, 5);
+            if((addresses == null) || (addresses.size() == 0)) {
+                return null;
+            }
+            Address addressLoc = addresses.get(0);
+            resLocation.setLatitude(addressLoc.getLatitude());
+            resLocation.setLongitude(addressLoc.getLongitude());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resLocation;
+    }
 
     private void requestMyLocation() {
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

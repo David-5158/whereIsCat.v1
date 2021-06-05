@@ -8,7 +8,7 @@ public class CatInformation {
     public String title;
     public String description;
     public String feature;
-    private String photo;
+    private Hashtable<String, String> photo;
 
     public CatInformation(){}
 
@@ -28,8 +28,8 @@ public class CatInformation {
 
     public void setIdToken(String idToken) { this.idToken = idToken; }
 
-    public String getPhoto() { return photo; }
-
-    public void setPhoto(Hashtable<String, String> setPhoto) { this.photo = photo; }
+//    public Hashtable<String, String> getPhoto() { return photo; }
+//
+//    public void setPhoto(Hashtable<String, String> photo) { this.photo = photo; }
 
 }

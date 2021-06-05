@@ -69,6 +69,7 @@ public class AddCatActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("FirebaseLogin");
+        Hashtable<String, String> profile = new Hashtable<String,String>();
 
 
         cat_finish.setOnClickListener(new View.OnClickListener() {  //고양이 저장 버튼 눌렀을 때 DB에 입력 값 저장
@@ -78,6 +79,7 @@ public class AddCatActivity extends AppCompatActivity {
                 String catTitle = title.getText().toString();
                 String catDescription = description.getText().toString();
                 String catFeature = feature.getText().toString();
+
 
 
 
@@ -147,6 +149,7 @@ public class AddCatActivity extends AppCompatActivity {
 
                 Hashtable<String, String> profile = new Hashtable<String,String>();
                 profile.put("photo", photoUrl);
+
 
                 FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
                 mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).child("photo").setValue(profile);
