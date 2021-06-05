@@ -7,36 +7,41 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 public class managementActivity extends AppCompatActivity {
 
+    TextView textView;
     Button btn_feed, btn_board, btn_finish;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management);
 
-
+        textView = findViewById(R.id.text_view);
         btn_finish = findViewById(R.id.btn_finish1);
 
         ImageView img1 = (ImageView)findViewById(R.id.empty_feed1); //빈밥그릇
         ImageView img2 = (ImageView)findViewById(R.id.empty_feed2);
         ImageView img3 = (ImageView)findViewById(R.id.empty_feed3);
-        ImageView img4 = (ImageView)findViewById(R.id.empty_feed4);
-        ImageView img5 = (ImageView)findViewById(R.id.empty_feed5);
+        ImageView img4 = (ImageView)findViewById(R.id.empty_feed4);;
         img1.setImageResource(R.drawable.empty_cat);  //이미지뷰에 이미지를 설정
         img2.setImageResource(R.drawable.empty_cat);
         img3.setImageResource(R.drawable.empty_cat);
         img4.setImageResource(R.drawable.empty_cat);
-        img5.setImageResource(R.drawable.empty_cat);
 
         ImageView img6 = (ImageView)findViewById(R.id.empty_snack1); //빈간식
         ImageView img7 = (ImageView)findViewById(R.id.empty_snack2);
@@ -61,6 +66,27 @@ public class managementActivity extends AppCompatActivity {
         Gallery gallery = (Gallery) findViewById(R.id.gallery1);
         MyGalleryAdapter galAdapter = new MyGalleryAdapter(this);
         gallery.setAdapter(galAdapter);
+
+        long duration = TimeUnit.MINUTES.toMillis(1);
+
+        new CountDownTimer(duration, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String sDuration = String.format(Locale.ENGLISH,"%02d : %02d"
+                    ,TimeUnit.MILLISECONDS.toMinutes(1)
+                    ,TimeUnit.MILLISECONDS.toSeconds(1) -
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(1)));
+                textView.setText(sDuration);
+            }
+
+            @Override
+            public void onFinish() {
+                textView.setVisibility(View.GONE);
+
+                Toast.makeText(getApplicationContext()
+                ,"Coutdown timer has ended",Toast.LENGTH_LONG).show();
+            }
+        }.start();
 
         //빈밥그릇 클릭시 이미지 변경
         img1.setOnClickListener(new View.OnClickListener() {
@@ -121,21 +147,6 @@ public class managementActivity extends AppCompatActivity {
                     //로직 수행
                 } else {
                     img4.setImageResource(R.drawable.full_cat);
-                    //로직 수행
-                }}});
-        img5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Drawable tempImg = img5.getDrawable();
-                Drawable tempRes = getResources().getDrawable(R.drawable.full_cat);
-                Bitmap tmpBitmap = ((BitmapDrawable) tempImg).getBitmap();
-                Bitmap tmpBitmapRes = ((BitmapDrawable) tempRes).getBitmap();
-
-                if (tmpBitmap.equals(tmpBitmapRes)) {
-                    img5.setImageResource(R.drawable.empty_cat);
-                    //로직 수행
-                } else {
-                    img5.setImageResource(R.drawable.full_cat);
                     //로직 수행
                 }}});
         //빈 간식 클릭시 이미지 변경

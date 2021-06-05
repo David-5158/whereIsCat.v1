@@ -28,6 +28,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/button123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:text="DeletePing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addcat" />
+
+    <Button
         android:id="@+id/btn_addcat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
