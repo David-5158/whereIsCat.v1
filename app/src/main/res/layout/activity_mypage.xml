@@ -116,6 +116,14 @@
                 android:text="1:1 문의하기"
                 android:layout_weight="1"/>
 
+            <Button
+                android:id="@+id/btn_board1"
+                android:layout_width="207dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#4C4545"
+                android:text="게시판"
+                android:layout_weight="1"/>
+
         </LinearLayout>
 
         <TextView

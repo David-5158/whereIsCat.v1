@@ -55,8 +55,7 @@
         <activity android:name=".MypageActivity"></activity>
         <activity android:name=".AddCatActivity"></activity>
         <activity android:name=".managementActivity"></activity>
-
-
+        <activity android:name=".boardActivity"></activity>
 
     </application>
 
