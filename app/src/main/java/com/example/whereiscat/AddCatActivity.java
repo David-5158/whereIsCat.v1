@@ -1,9 +1,13 @@
 package com.example.whereiscat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,13 +18,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Hashtable;
+import java.util.concurrent.atomic.AtomicMarkableReference;
 
 public class AddCatActivity extends AppCompatActivity {
 
@@ -30,11 +45,16 @@ public class AddCatActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     Button neut_yes, neut_no, neut_what, cat_finish;
+    Bitmap bitmap;
+
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addcat);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
 
         title = findViewById(R.id.title);
@@ -102,6 +122,54 @@ public class AddCatActivity extends AppCompatActivity {
         });
     }
 
+    public void uploadImage(){
+        StorageReference mountainsRef = mStorageRef.child("user").child("email"+".jpg");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = mountainsRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+                String photoUrl = String.valueOf(downloadUrl);
+                Log.d("url", photoUrl);
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("Cat Information");
+
+                Hashtable<String, String> profile = new Hashtable<String,String>();
+                profile.put("photo", photoUrl);
+                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(profile);
+//                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        DataSnapshot dataSnapshot = null;
+//                        String s = dataSnapshot.getValue().toString();
+//                        Log.d("Profile",s);
+//                        if(dataSnapshot != null){
+//
+//                        }
+//                    }
+//
+//
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+            }
+        });
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -110,10 +178,11 @@ public class AddCatActivity extends AppCompatActivity {
                 try {
                     InputStream in = getContentResolver().openInputStream(data.getData());
 
-                    Bitmap img = BitmapFactory.decodeStream(in);
+                    bitmap = BitmapFactory.decodeStream(in);
                     in.close();
 
-                    imageView.setImageBitmap(img);
+                    imageView.setImageBitmap(bitmap);
+                    uploadImage();
                 } catch (Exception e) {
 
                 }
