@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,121 +15,137 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="187dp"
+            android:layout_height="190dp"
             android:background="#FFFFFF"
             android:orientation="horizontal">
 
-            <Gallery
-                android:id="@+id/gallery1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:spacing="5dp" />
-
             <ImageView
-                android:id="@+id/cat_poster"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="5dp" />
+                android:id="@+id/cat_image1"
+                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+
+                />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_feed1"
-                android:layout_width="205dp"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:text="상태"
-                app:backgroundTint="#DAFF7A7A" />
-
-            <Button
-                android:id="@+id/btn_board1"
-                android:layout_width="208dp"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:text="게시판"
-                app:backgroundTint="#DAFF7A7A" />
-
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="438dp"
-            android:background="#DAFF7A7A"
+            android:layout_height="match_parent"
+            android:background="#DAE4CDCD"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/feed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="     밥"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <ImageView
-                    android:id="@+id/empty_feed1"
-                    android:layout_width="74dp"
-                    android:layout_height="94dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/empty_cat" />
-
-                <ImageView
-                    android:id="@+id/empty_feed2"
-                    android:layout_width="74dp"
-                    android:layout_height="94dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/empty_cat" />
-
-                <ImageView
-                    android:id="@+id/empty_feed3"
-                    android:layout_width="74dp"
-                    android:layout_height="94dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/empty_cat" />
-
-                <ImageView
-                    android:id="@+id/empty_feed4"
-                    android:layout_width="74dp"
-                    android:layout_height="94dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/empty_cat" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/snack"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="     간식"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/feed"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"
+                    android:text="밥"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="397dp"
+                    android:layout_height="102dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
+
+                    <ImageView
+                        android:id="@+id/empty_feed1"
+                        android:layout_width="74dp"
+                        android:layout_height="94dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/empty_cat" />
+
+                    <ImageView
+                        android:id="@+id/empty_feed2"
+                        android:layout_width="74dp"
+                        android:layout_height="94dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/empty_cat" />
+
+                    <ImageView
+                        android:id="@+id/empty_feed3"
+                        android:layout_width="74dp"
+                        android:layout_height="94dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/empty_cat" />
+
+                    <ImageView
+                        android:id="@+id/empty_feed4"
+                        android:layout_width="74dp"
+                        android:layout_height="94dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/empty_cat" />
+
+                    <TextView
+                        android:layout_width="74dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:drawableTop="@drawable/ic_timer"
+                        android:id="@+id/text_view"
+                        />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#000000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/snack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"
+                    android:text="간식"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/empty_snack1"
@@ -178,34 +194,116 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         app:srcCompat="@drawable/empty_snack" />
+
+                    <ImageView
+                        android:id="@+id/empty_snack5"
+                        android:layout_width="74dp"
+                        android:layout_height="94dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/empty_snack" />
                 </LinearLayout>
-            <TextView
-                android:id="@+id/water"
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#000000" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="     물"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/water"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"
+                    android:shadowColor="#00000000"
+                    android:text="물"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/empty_180"
+                        android:layout_width="74dp"
+                        android:layout_height="94dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:paddingRight="5dp"
+                        app:srcCompat="@drawable/water_e180" />
+
+                    <ImageView
+                        android:id="@+id/empty_300"
+                        android:layout_width="74dp"
+                        android:layout_height="94dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/water_e300" />
+
+                    <ImageView
+                        android:id="@+id/empty_500"
+                        android:layout_width="74dp"
+                        android:layout_height="94dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/water_e500" />
+
+                    <ImageView
+                        android:id="@+id/empty_1l"
+                        android:layout_width="78dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/water_e1l" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/btn_finish1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#4C4545"
+                        android:text="FINISH"
+                        app:backgroundTint="#4C4545" />
+
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_finish1"
-                android:layout_width="413dp"
-                android:layout_height="59dp"
-                android:background="#DAFF7A7A"
-                android:text="FINISH"
-                app:backgroundTint="#D55656" />
-
-
         </LinearLayout>
-
-    </LinearLayout>
-
 </FrameLayout>

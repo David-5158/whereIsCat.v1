@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MypageActivity extends AppCompatActivity {
-    Button btn_notice, btn_ask;
+    Button btn_notice, btn_ask, btn_board;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,7 @@ public class MypageActivity extends AppCompatActivity {
 
         btn_notice = findViewById(R.id.btn_notice1);
         btn_ask = findViewById(R.id.btn_ask1);
+        btn_board = findViewById(R.id.btn_board1);
 
 
         btn_ask.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +33,14 @@ public class MypageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NoticeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_board.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), boardActivity.class);
                 startActivity(intent);
             }
         });

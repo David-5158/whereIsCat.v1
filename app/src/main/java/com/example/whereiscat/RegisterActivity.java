@@ -23,7 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     private EditText et_id, et_pass ;  //회원가입 입력 필드
-    private Button mBtnRegister;   //회원가입 버튼
+    private Button mBtnRegister,btn_del;   //회원가입 버튼
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,15 @@ public class RegisterActivity extends AppCompatActivity {
         et_id = findViewById(R.id.et_id);
         et_pass = findViewById(R.id.et_pass);
         mBtnRegister = findViewById(R.id.btn_register);
+        btn_del = findViewById(R.id.btn_del);
+
+        btn_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,10 +1,8 @@
 package com.example.whereiscat;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,19 +21,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
-import java.util.concurrent.atomic.AtomicMarkableReference;
 
 public class AddCatActivity extends AppCompatActivity {
 
@@ -46,6 +43,7 @@ public class AddCatActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     Button neut_yes, neut_no, neut_what, cat_finish;
     Bitmap bitmap;
+//    File localFile;
 
     private StorageReference mStorageRef;
 
@@ -69,7 +67,6 @@ public class AddCatActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("FirebaseLogin");
-        Hashtable<String, String> profile = new Hashtable<String,String>();
 
 
         cat_finish.setOnClickListener(new View.OnClickListener() {  //고양이 저장 버튼 눌렀을 때 DB에 입력 값 저장
@@ -79,7 +76,6 @@ public class AddCatActivity extends AppCompatActivity {
                 String catTitle = title.getText().toString();
                 String catDescription = description.getText().toString();
                 String catFeature = feature.getText().toString();
-
 
 
 
@@ -150,9 +146,8 @@ public class AddCatActivity extends AppCompatActivity {
                 Hashtable<String, String> profile = new Hashtable<String,String>();
                 profile.put("photo", photoUrl);
 
-
-                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).child("photo").setValue(profile);
+//                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+//                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(profile);
 
 
             }

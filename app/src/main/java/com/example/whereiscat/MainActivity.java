@@ -5,12 +5,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,7 +49,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -56,13 +64,15 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     private FirebaseUser firebaseUser;
+    private StorageReference mStorageRef;
+
 
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button mylocation,btn_mypage,btn_addcat, btn_catregister, btn_remove ;
-    EditText editText;
-//    TextView cat_title,cat_description;
+    Button btn_mypage,btn_addcat;
+    File localFile;
+    ImageView catPhoto;
 
     MarkerOptions myMarker;
 
@@ -70,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("FirebaseLogin");
@@ -82,11 +95,6 @@ public class MainActivity extends AppCompatActivity {
 //        mylocation = findViewById(R.id.mylocation);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
-        btn_remove = findViewById(R.id.button123);
-
-//        cat_title = (TextView)findViewById(R.id.cat_title);
-//        cat_description = (TextView)findViewById(R.id.cat_description);
-
 
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 Log.d(TAG, "onMapReady: ");
                 map = googleMap;
+                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Dongrae,16));
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(Dongrae);
+                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
                     @Override
                     public void onMapClick(LatLng point) {
@@ -116,7 +129,8 @@ public class MainActivity extends AppCompatActivity {
                         Double latitude = point.latitude; // 위도
                         Double longitude = point.longitude; // 경도
                         // 마커의 스니펫(간단한 텍스트) 설정
-                        mOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat));
+                        mOptions.snippet(location.toString() + ", " + longitude.toString())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat));
                         // LatLng: 위도 경도 쌍을 나타냄
                         mOptions.position(new LatLng(latitude, longitude));
                         // 마커(핀) 추가
@@ -174,9 +188,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
                         String token = marker.getTitle();
-
                         mDatabaseRef.child("Cat Information").child(token).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>(){
-
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
                                 if (!task.isSuccessful()) {
@@ -197,12 +209,29 @@ public class MainActivity extends AppCompatActivity {
                                     TextView catTitle = bottomSheetView.findViewById(R.id.cat_title);
                                     TextView catSpecies = bottomSheetView.findViewById(R.id.cat_description);
                                     TextView catFeature = bottomSheetView.findViewById(R.id.cat_feature);
-                                    ImageView catPhoto = bottomSheetView.findViewById(R.id.cat_image);
+                                    catPhoto = bottomSheetView.findViewById(R.id.cat_image);
                                     catTitle.setText(catinfo.get("title").toString());
                                     catSpecies.setText(catinfo.get("description").toString());
                                     catFeature.setText(catinfo.get("feature").toString());
-                                    catPhoto.setImageURI(Uri.parse(catinfo.get("photo").toString()));
+                                    try {   //파이어베이스에서 이미지 파일 불러오기
+                                        localFile = File.createTempFile("images", "jpg");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    StorageReference mountainsRef = mStorageRef.child("user").child("email"+".jpg");
 
+                                    mountainsRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                            catPhoto.setImageBitmap(bitmap);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
                                     bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -216,36 +245,10 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                        btn_remove.setOnClickListener(new View.OnClickListener() {  //마커 지웠을 때 데이터베이스 지우기
-                            @Override
-                            public void onClick(View v) {
-                                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(null);
-                                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(null);
-                                marker.remove();
-                            }
-                        });
-
-
                         return false;
                     }
                 });
 
-//                if (DataSnapshot.getValue(String.class) != null) {
-//
-//                    String key = dataSnapshot.getKey();
-//                    if (key.equals("feature")) {
-//
-//                        String title = dataSnapshot.getValue(String.class);
-//                        cat_title.setText(title);
-//                    }
-//                    if (key.equals("nick")) {
-//
-//                        String description = dataSnapshot.getValue(String.class);
-//                        cat_description.setText(description);
-//
-//                    }
-//                }
             }
 
             @Override
@@ -255,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        //위치 확인 버튼 기능 추가
+//        //위치 확인 버튼 기능 추가
 //        mylocation.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -357,32 +360,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        if (requestCode == 1) {
-//            for (int i = 0; i < permissions.length; i++) {
-//                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }
-//    }
-    //------------------권한 설정 끝------------------------
 
-//    private void showMyMarker(Location location) {
-//        if(myMarker == null) {
-//            myMarker = new MarkerOptions();
-//            myMarker.position(new LatLng(location.getLatitude(), location.getLongitude()));
-//            myMarker.title("◎ 내위치\n");
-//            myMarker.snippet("여기가 어디지?");
-//        }
-//
-//
-//
-//
-//
-//    }
 
 }
