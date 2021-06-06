@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     Button btn_mypage,btn_addcat;
     File localFile;
     ImageView catPhoto;
+    Double latitude;
+    Double longitude;
 
     MarkerOptions myMarker;
 
@@ -113,11 +115,11 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 Log.d(TAG, "onMapReady: ");
                 map = googleMap;
-                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Dongrae,16));
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(Dongrae);
-                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
+//                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
+//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Dongrae,16));
+//                MarkerOptions markerOptions = new MarkerOptions();
+//                markerOptions.position(Dongrae);
+//                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
                     @Override
                     public void onMapClick(LatLng point) {
@@ -126,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
                         // 마커 타이틀
                         mOptions.title("마커 좌표");
-                        Double latitude = point.latitude; // 위도
-                        Double longitude = point.longitude; // 경도
+                        latitude = point.latitude; // 위도
+                        longitude = point.longitude; // 경도
                         // 마커의 스니펫(간단한 텍스트) 설정
                         mOptions.snippet(location.toString() + ", " + longitude.toString())
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat));
@@ -135,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
                         mOptions.position(new LatLng(latitude, longitude));
                         // 마커(핀) 추가
                         map.addMarker(mOptions);
+
+                        LatLng markerLocation = new LatLng(latitude, longitude);
+                        map.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
+
 
                         btn_addcat.setOnClickListener(new View.OnClickListener() {  //고양이 추가 버튼(마커를 찍어야지만 작동함)
                             @Override
@@ -157,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
                                             //setValue : database에 insert (삽입) 행위
                                             mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(location);
 
+
+
+
 //                                            Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
 
                                         } else {
@@ -166,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
                             }
                         });
+
 
                     }
                 });
