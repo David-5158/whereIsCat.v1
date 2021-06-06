@@ -47,7 +47,6 @@ public class AddCatActivity extends AppCompatActivity {
     Button neut_yes, neut_no, neut_what, cat_finish;
     Bitmap bitmap;
     GoogleMap map;
-//    File localFile;
 
     private StorageReference mStorageRef;
 
@@ -57,6 +56,7 @@ public class AddCatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_addcat);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
 
 
         title = findViewById(R.id.title);
@@ -81,9 +81,9 @@ public class AddCatActivity extends AppCompatActivity {
                 String catDescription = description.getText().toString();
                 String catFeature = feature.getText().toString();
 
-                MainActivity main = new MainActivity();
-                LatLng markerLocation = new LatLng(main.latitude, main.longitude);
-                map.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
+//                MainActivity main = new MainActivity();
+//                LatLng markerLocation = new LatLng(main.latitude, main.longitude);
+//                map.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
 
 
 
