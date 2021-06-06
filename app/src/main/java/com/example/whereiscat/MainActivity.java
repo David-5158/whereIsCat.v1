@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +38,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +49,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -54,13 +64,17 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;  //파이어베이스 인증
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     private FirebaseUser firebaseUser;
+    private StorageReference mStorageRef;
+
 
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
     Button mylocation,btn_mypage,btn_addcat, btn_catregister ;
     EditText editText;
-//    TextView cat_title,cat_description;
+    //    TextView cat_title,cat_description;
+    File localFile;
+    ImageView catPhoto;
 
     MarkerOptions myMarker;
 
@@ -68,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("FirebaseLogin");
@@ -98,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 Log.d(TAG, "onMapReady: ");
                 map = googleMap;
+                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Dongrae,16));
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(Dongrae);
+                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
                     @Override
                     public void onMapClick(LatLng point) {
@@ -189,9 +211,29 @@ public class MainActivity extends AppCompatActivity {
                                     TextView catTitle = bottomSheetView.findViewById(R.id.cat_title);
                                     TextView catSpecies = bottomSheetView.findViewById(R.id.cat_description);
                                     TextView catFeature = bottomSheetView.findViewById(R.id.cat_feature);
+                                    catPhoto = bottomSheetView.findViewById(R.id.cat_image);
                                     catTitle.setText(catinfo.get("title").toString());
                                     catSpecies.setText(catinfo.get("description").toString());
                                     catFeature.setText(catinfo.get("feature").toString());
+                                    try {   //파이어베이스에서 이미지 파일 불러오기
+                                        localFile = File.createTempFile("images", "jpg");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    StorageReference mountainsRef = mStorageRef.child("user").child("email"+".jpg");
+
+                                    mountainsRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                            catPhoto.setImageBitmap(bitmap);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
                                     bottomSheetView.findViewById(R.id.buttonShare).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -209,21 +251,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-//                if (DataSnapshot.getValue(String.class) != null) {
-//
-//                    String key = dataSnapshot.getKey();
-//                    if (key.equals("feature")) {
-//
-//                        String title = dataSnapshot.getValue(String.class);
-//                        cat_title.setText(title);
-//                    }
-//                    if (key.equals("nick")) {
-//
-//                        String description = dataSnapshot.getValue(String.class);
-//                        cat_description.setText(description);
-//
-//                    }
-//                }
             }
 
             @Override

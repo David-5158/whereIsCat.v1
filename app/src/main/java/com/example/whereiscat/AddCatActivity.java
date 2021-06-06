@@ -40,6 +40,7 @@ public class AddCatActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     Button neut_yes, neut_no, neut_what, cat_finish;
     Bitmap bitmap;
+//    File localFile;
 
     private StorageReference mStorageRef;
 
@@ -142,8 +143,8 @@ public class AddCatActivity extends AppCompatActivity {
                 Hashtable<String, String> profile = new Hashtable<String,String>();
                 profile.put("photo", photoUrl);
 
-                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).child("photo").setValue(profile);
+//                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+//                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(profile);
 
 
             }
