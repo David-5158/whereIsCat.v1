@@ -1,5 +1,7 @@
 package com.example.whereiscat;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -81,11 +83,6 @@ public class AddCatActivity extends AppCompatActivity {
                 String catDescription = description.getText().toString();
                 String catFeature = feature.getText().toString();
 
-//                MainActivity main = new MainActivity();
-//                LatLng markerLocation = new LatLng(main.latitude, main.longitude);
-//                map.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-
-
 
 
 
@@ -115,9 +112,14 @@ public class AddCatActivity extends AppCompatActivity {
                     }
 
                 });
-                Intent intent = new Intent(AddCatActivity.this, MainActivity.class);
-                startActivity(intent);
+               Intent intent = new Intent(AddCatActivity.this, MainActivity.class);
+               startActivity(intent);
+
+
+
             }
+
+
         });
 
         imageView = findViewById(R.id.image);

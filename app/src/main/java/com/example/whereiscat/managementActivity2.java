@@ -31,8 +31,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -82,8 +87,19 @@ public class managementActivity2 extends AppCompatActivity {
         sendbt1.setOnClickListener((v) -> {
             msg1 = editdt1.getText().toString();
             msg2 = editdt2.getText().toString();
-            msg3 = ("밥"+msg1+",    ") + ("물"+msg2);
+
+            TimeZone timezone1 = TimeZone.getTimeZone("Etc/GMT-9");
+            TimeZone.setDefault(timezone1);
+
+            SimpleDateFormat formater1 = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
+            Date current = new Date();
+
+            String mtime1 = formater1.format(current);
+
             mDatabaseRef.push().setValue(msg3);
+
+            msg3 = ("밥"+msg1+",    ") + ("물"+msg2) + ("     "+ mtime1);
+
         });
         try {   //파이어베이스에서 이미지 파일 불러오기
             localFile = File.createTempFile("images", "jpg");
@@ -190,4 +206,3 @@ public class managementActivity2 extends AppCompatActivity {
 
         }
     }}
-

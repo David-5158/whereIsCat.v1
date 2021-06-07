@@ -15,8 +15,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,7 +32,8 @@ public class boardActivity extends AppCompatActivity {
 
     private Button sendbt;
     private EditText editdt;
-    public String msg;
+    public String msg, nsg;
+
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -54,8 +62,17 @@ public class boardActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         sendbt.setOnClickListener((v) -> {
-              msg = editdt.getText().toString();
-              mDatabaseRef.push().setValue(msg);
+            TimeZone timezone = TimeZone.getTimeZone("Etc/GMT-9");
+            TimeZone.setDefault(timezone);
+
+            SimpleDateFormat formater = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
+            Date current = new Date();
+
+            String mtime = formater.format(current);
+
+            msg = editdt.getText().toString();
+            nsg = msg +"     "+mtime;
+            mDatabaseRef.push().setValue(nsg);
         });
 
         mDatabaseRef = mFirebaseDatabase.getReference("message");
@@ -123,6 +140,7 @@ public class boardActivity extends AppCompatActivity {
         super.onDestroy();
         mDatabaseRef.removeEventListener(mChildEventListener);
     }
-}
 
+
+}
 
