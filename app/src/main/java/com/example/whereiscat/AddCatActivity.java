@@ -15,6 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,7 +46,7 @@ public class AddCatActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     Button neut_yes, neut_no, neut_what, cat_finish;
     Bitmap bitmap;
-//    File localFile;
+    GoogleMap map;
 
     private StorageReference mStorageRef;
 
@@ -53,6 +56,7 @@ public class AddCatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_addcat);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
 
 
         title = findViewById(R.id.title);
@@ -76,6 +80,10 @@ public class AddCatActivity extends AppCompatActivity {
                 String catTitle = title.getText().toString();
                 String catDescription = description.getText().toString();
                 String catFeature = feature.getText().toString();
+
+
+
+
 
 
 
@@ -105,8 +113,7 @@ public class AddCatActivity extends AppCompatActivity {
                     }
 
                 });
-                Intent intent = new Intent(AddCatActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
