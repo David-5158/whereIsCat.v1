@@ -124,14 +124,16 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/cat_follow"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginStart="10dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_favorite"
-            app:tint="@color/colorSecondaryText" />
+            android:src="@drawable/imgbtn_favorite"
+            android:backgroundTint="@color/colorWhite"/>
+<!--            app:tint="@color/colorSecondaryText" -->
+
 
         <TextView
             android:layout_width="match_parent"

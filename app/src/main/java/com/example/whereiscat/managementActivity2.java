@@ -205,4 +205,8 @@ public class managementActivity2 extends AppCompatActivity {
             return imageview;
 
         }
+<<<<<<< HEAD
     }}
+=======
+    }}
+>>>>>>> 07249a9eb9586e3a4c190189398219877e293be3

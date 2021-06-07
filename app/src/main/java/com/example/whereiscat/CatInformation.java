@@ -1,5 +1,7 @@
 package com.example.whereiscat;
 
+import java.util.Hashtable;
+
 public class CatInformation {
 
     public String idToken;
@@ -24,5 +26,7 @@ public class CatInformation {
     public String getIdToken() { return idToken; }
 
     public void setIdToken(String idToken) { this.idToken = idToken; }
+
+
 
 }

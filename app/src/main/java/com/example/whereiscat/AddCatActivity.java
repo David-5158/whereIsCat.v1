@@ -108,8 +108,13 @@ public class AddCatActivity extends AppCompatActivity {
                     }
 
                 });
+<<<<<<< HEAD
                 Intent intent = new Intent(AddCatActivity.this, MainActivity.class);
                 startActivity(intent);
+=======
+               Intent intent = new Intent(AddCatActivity.this, MainActivity.class);
+               startActivity(intent);
+>>>>>>> 07249a9eb9586e3a4c190189398219877e293be3
 
 
 
