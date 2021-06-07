@@ -1,5 +1,7 @@
 package com.example.whereiscat;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -84,9 +86,6 @@ public class AddCatActivity extends AppCompatActivity {
 
 
 
-
-
-
                 FirebaseDatabase.getInstance().getReference("Cat Information")
                         .setValue(information).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -113,8 +112,14 @@ public class AddCatActivity extends AppCompatActivity {
                     }
 
                 });
-                finish();
+                Intent intent = new Intent(AddCatActivity.this, MainActivity.class);
+                startActivity(intent);
+
+
+
             }
+
+
         });
 
         imageView = findViewById(R.id.image);

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-    Button btn_mypage,btn_addcat;
+    Button btn_mypage,btn_addcat, btn_remove;
     File localFile;
     ImageView catPhoto;
     Double latitude;
@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
 //        mylocation = findViewById(R.id.mylocation);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
+        btn_remove = findViewById(R.id.button123);
+
+        getIntent();
 
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
@@ -117,11 +120,11 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 Log.d(TAG, "onMapReady: ");
                 map = googleMap;
-//                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
-//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Dongrae,16));
-//                MarkerOptions markerOptions = new MarkerOptions();
-//                markerOptions.position(Dongrae);
-//                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
+                LatLng Dongrae = new LatLng(35.144652967344946, 129.01044219732285);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Dongrae,16));
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(Dongrae);
+                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
                     @Override
                     public void onMapClick(LatLng point) {
@@ -168,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
 //                                            Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
 
                                         } else {
@@ -200,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
                         String token = marker.getTitle();
+
                         mDatabaseRef.child("Cat Information").child(token).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>(){
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -256,6 +262,15 @@ public class MainActivity extends AppCompatActivity {
                                     bottomSheetDialog.setContentView(bottomSheetView);
                                     bottomSheetDialog.show();
                                 }
+                            }
+                        });
+                        btn_remove.setOnClickListener(new View.OnClickListener() {  //마커 지웠을 때 데이터베이스 지우기
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+                                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(null);
+                                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(null);
+                                marker.remove();
                             }
                         });
                         return false;
