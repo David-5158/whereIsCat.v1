@@ -34,9 +34,7 @@
             android:layout_height="100dp"
             android:layout_width="100dp"
             android:layout_margin="10dp"
-            android:scaleType="centerCrop"
-
-            />
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,6 +75,7 @@
                     android:text="kitkat"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="15sp" />
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -70,21 +69,13 @@ public class MainActivity extends AppCompatActivity {
     //객체 선언
     SupportMapFragment mapFragment;
     GoogleMap map;
-<<<<<<< HEAD
-    Button mylocation,btn_mypage,btn_addcat, btn_catregister ;
-    EditText editText;
-    //    TextView cat_title,cat_description;
-    File localFile;
-    ImageView catPhoto;
-=======
-    Button btn_mypage,btn_addcat;
+    Button btn_mypage,btn_addcat, btn_remove;
     File localFile;
     ImageView catPhoto;
     Double latitude;
     Double longitude;
 
 
->>>>>>> c7b0974e2e6cd0b89fcf18924de6cc8f06e0d2ec
 
     MarkerOptions myMarker;
 
@@ -107,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
 //        mylocation = findViewById(R.id.mylocation);
         btn_mypage = findViewById(R.id.btn_mypage);
         btn_addcat = findViewById(R.id.btn_addcat);
+        btn_remove = findViewById(R.id.button123);
+
+        getIntent();
 
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
@@ -125,19 +119,11 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 Log.d(TAG, "onMapReady: ");
                 map = googleMap;
-<<<<<<< HEAD
-                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
+                LatLng Dongrae = new LatLng(35.144652967344946, 129.01044219732285);
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(Dongrae,16));
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(Dongrae);
                 map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
-=======
-//                LatLng Dongrae = new LatLng(35.20615984627955, 129.0777944773436);
-//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Dongrae,16));
-//                MarkerOptions markerOptions = new MarkerOptions();
-//                markerOptions.position(Dongrae);
-//                map.moveCamera(CameraUpdateFactory.newLatLng(Dongrae));
->>>>>>> c7b0974e2e6cd0b89fcf18924de6cc8f06e0d2ec
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
                     @Override
                     public void onMapClick(LatLng point) {
@@ -180,10 +166,6 @@ public class MainActivity extends AppCompatActivity {
 
                                             //setValue : database에 insert (삽입) 행위
                                             mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(location);
-
-
-
-
 //                                            Toast.makeText(MainActivity.this, "Loacation Saved", Toast.LENGTH_SHORT).show();
 
                                         } else {
@@ -216,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
                         String token = marker.getTitle();
+
                         mDatabaseRef.child("Cat Information").child(token).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>(){
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -238,10 +221,7 @@ public class MainActivity extends AppCompatActivity {
                                     TextView catSpecies = bottomSheetView.findViewById(R.id.cat_description);
                                     TextView catFeature = bottomSheetView.findViewById(R.id.cat_feature);
                                     catPhoto = bottomSheetView.findViewById(R.id.cat_image);
-<<<<<<< HEAD
-=======
 
->>>>>>> c7b0974e2e6cd0b89fcf18924de6cc8f06e0d2ec
                                     catTitle.setText(catinfo.get("title").toString());
                                     catSpecies.setText(catinfo.get("description").toString());
                                     catFeature.setText(catinfo.get("feature").toString());
@@ -275,6 +255,15 @@ public class MainActivity extends AppCompatActivity {
                                     bottomSheetDialog.setContentView(bottomSheetView);
                                     bottomSheetDialog.show();
                                 }
+                            }
+                        });
+                        btn_remove.setOnClickListener(new View.OnClickListener() {  //마커 지웠을 때 데이터베이스 지우기
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+                                mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(null);
+                                mDatabaseRef.child("Current Location").child(firebaseUser.getUid()).setValue(null);
+                                marker.remove();
                             }
                         });
                         return false;

@@ -15,9 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,14 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 
@@ -46,11 +41,7 @@ public class AddCatActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;  //실시간 데이터 베이스
     Button neut_yes, neut_no, neut_what, cat_finish;
     Bitmap bitmap;
-<<<<<<< HEAD
-//    File localFile;
-=======
     GoogleMap map;
->>>>>>> c7b0974e2e6cd0b89fcf18924de6cc8f06e0d2ec
 
     private StorageReference mStorageRef;
 
@@ -85,14 +76,6 @@ public class AddCatActivity extends AppCompatActivity {
                 String catDescription = description.getText().toString();
                 String catFeature = feature.getText().toString();
 
-//                MainActivity main = new MainActivity();
-//                LatLng markerLocation = new LatLng(main.latitude, main.longitude);
-//                map.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-
-
-
-
-
                 FirebaseDatabase.getInstance().getReference("Cat Information")
                         .setValue(information).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -104,9 +87,6 @@ public class AddCatActivity extends AppCompatActivity {
                             information.setTitle(catTitle);
                             information.setDescription(catDescription);
                             information.setFeature(catFeature);
-
-
-
 //                            setValue : database에 insert (삽입) 행위
                             mDatabaseRef.child("Cat Information").child(firebaseUser.getUid()).setValue(information);
 
@@ -115,11 +95,9 @@ public class AddCatActivity extends AppCompatActivity {
                         } else {
 //                                            Toast.makeText(MainActivity.this, "Loacation Not Saved", Toast.LENGTH_SHORT).show();
                         }
-
                     }
-
                 });
-                Intent intent = new Intent(AddCatActivity.this, MainActivity.class);
+                Intent intent = new Intent(AddCatActivity.this, MainActivity.class); // 저장 후 엑티비티 종료
                 startActivity(intent);
             }
         });
