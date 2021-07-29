@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         btn_addcat = findViewById(R.id.btn_addcat);
         btn_remove = findViewById(R.id.button123);
 
-        getIntent();
+
 
 
         btn_mypage.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         latitude = point.latitude; // 위도
                         longitude = point.longitude; // 경도
                         // 마커의 스니펫(간단한 텍스트) 설정
-                        mOptions.snippet(location.toString() + ", " + longitude.toString())
+                        mOptions.snippet(location.toString() + ", " + location.toString())
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ping_cat));
                         // LatLng: 위도 경도 쌍을 나타냄
                         mOptions.position(new LatLng(latitude, longitude));

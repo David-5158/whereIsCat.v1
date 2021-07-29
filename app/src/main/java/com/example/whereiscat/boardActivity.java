@@ -62,19 +62,17 @@ public class boardActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         sendbt.setOnClickListener((v) -> {
-                TimeZone timezone = TimeZone.getTimeZone("Etc/GMT-9");
-                TimeZone.setDefault(timezone);
+            TimeZone timezone = TimeZone.getTimeZone("Etc/GMT-9");
+            TimeZone.setDefault(timezone);
 
-                SimpleDateFormat formater = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
-                Date current = new Date();
+            SimpleDateFormat formater = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
+            Date current = new Date();
 
-                String mtime = formater.format(current);
+            String mtime = formater.format(current);
 
-              msg = editdt.getText().toString();
-              nsg = msg +"     "+mtime;
-              mDatabaseRef.push().setValue(nsg);
-
-
+            msg = editdt.getText().toString();
+            nsg = msg +"     "+mtime;
+            mDatabaseRef.push().setValue(nsg);
         });
 
         mDatabaseRef = mFirebaseDatabase.getReference("message");
@@ -144,7 +142,5 @@ public class boardActivity extends AppCompatActivity {
     }
 
 
-
 }
-
 

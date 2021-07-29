@@ -64,7 +64,11 @@ public class AddCatActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
         feature = findViewById(R.id.feature);
-        
+
+
+//        neut_yes = findViewById(R.id.neut_yes);
+//        neut_no = findViewById(R.id.neut_no);
+//        neut_what = findViewById(R.id.neut_what);
         cat_finish = findViewById(R.id.cat_finish);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -108,7 +112,6 @@ public class AddCatActivity extends AppCompatActivity {
                     }
 
                 });
-
                 Intent intent = new Intent(AddCatActivity.this, MainActivity.class);
                 startActivity(intent);
 
