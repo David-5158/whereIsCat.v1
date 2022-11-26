@@ -23,3 +23,10 @@
 - 사용자가 어플리케이션 지도에 길고양이의 사진, 특징 등을 입력하여 하나의 핀으로 고양이를 등록하고, 핀의 색깔로 길고양이 피딩 여부와 상태를 확인할 수 있다 ( ex : 길고양이에게 밥을 줬다는 버튼을 누르면 그 고양이는 몇시간 동안 핀의 색깔이 변해서 중복 피딩을 막는다 )
 
 - 길고양이를 사용자가 등록하면 시중의 인**그램이나, 페**북 같은 커뮤니티 앱처럼 등록된 고양이를 팔로우할 수 있으며 고양이의 사진을 업로드하거나 고양이의 프로필정보, 특정 고양이에게 관심을 갖고 있는 사람들끼리 소통할 수 있다.
+
+# 실제 구동화면
+![image01](https://user-images.githubusercontent.com/67012957/204085260-dfe7745a-8339-4e49-8cdb-75174ce28317.png)
+![image03](https://user-images.githubusercontent.com/67012957/204085282-82feac5e-601a-4279-a7d8-ad7b1239b605.png)
+![image04](https://user-images.githubusercontent.com/67012957/204085284-c4f54e48-2125-41c2-bcee-1ced00c8bb0f.png)
+![image05](https://user-images.githubusercontent.com/67012957/204085286-1e6f6677-d1f3-4424-86aa-8b7ba1949306.png)
+![image06](https://user-images.githubusercontent.com/67012957/204085287-c3daf523-1fcb-4982-97a0-5a4d4b9c8cb3.png)
